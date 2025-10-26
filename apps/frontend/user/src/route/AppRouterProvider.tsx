@@ -1,4 +1,4 @@
-import { Loading } from '@pawhaven/ui';
+import { Loading, SuspenseWrapper } from '@pawhaven/ui';
 import type { ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { RouteObject } from 'react-router-dom';
@@ -16,19 +16,25 @@ export interface RouteMetaType {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routesMapping = (routesFromAPI: any[]): RouteObject[] => {
   const routes = routesFromAPI.map((route) => {
+    const isLazyLoadElement = route?.handle?.isLazyLoad ?? true;
     const mappedRoute: RouteObject = {
       path: route?.path,
-      element: routerElementMapping[route.element],
+      element: isLazyLoadElement ? (
+        <SuspenseWrapper>{routerElementMapping[route.element]}</SuspenseWrapper>
+      ) : (
+        routerElementMapping[route.element]
+      ),
       handle: route?.handle,
+      errorElement: routerElementMapping.errorFallback,
     };
 
     if (route?.children) {
       mappedRoute.children = routesMapping(route?.children);
-      mappedRoute.errorElement = routerElementMapping.errorFallback;
     }
 
     return mappedRoute;
   });
+
   return routes;
 };
 

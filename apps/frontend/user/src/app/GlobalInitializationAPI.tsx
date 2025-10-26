@@ -48,7 +48,7 @@ const getDynamicRouters = () => {
       children: [
         {
           path: '/',
-          handle: { isRequireUserLogin: false },
+          handle: { isRequireUserLogin: false, isLazyLoad: false },
           element: 'home',
         },
         {
@@ -69,6 +69,7 @@ const getDynamicRouters = () => {
             isRequireUserLogin: false,
             isMenuAvailable: false,
             isFooterAvailable: false,
+            isLazyLoad: false,
           },
           element: 'auth_login',
         },
@@ -78,6 +79,7 @@ const getDynamicRouters = () => {
             isRequireUserLogin: false,
             isMenuAvailable: false,
             isFooterAvailable: false,
+            isLazyLoad: false,
           },
           element: 'auth_register',
         },

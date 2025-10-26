@@ -30,6 +30,7 @@ export type RouterHandle = {
   isMenuAvailable?: boolean;
   isRequireUserLogin?: boolean;
   isFooterAvailable?: boolean;
+  isLazyLoad?: boolean;
 };
 
 export interface RouterInfoType {
