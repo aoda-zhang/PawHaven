@@ -3,16 +3,19 @@ import type { RouteObject } from 'react-router-dom';
 
 import type { MenuItemType } from '@/types/LayoutType';
 
-export const HomeQueryKeys = {
-  GET_DEFAULT_MENU: 'GET_DEFAULT_MENU',
-  GET_DEFAULT_ROUTER: 'GET_DEFAULT_ROUTER',
+export const GlobalQueryKeys = {
+  global: ['GLOBAL'] as const,
+  menu: (userID?: string, menuVersion?: string) =>
+    [...GlobalQueryKeys.global, 'MENU', userID, menuVersion] as const,
+  router: (userID?: string, routerVersion?: string) =>
+    [...GlobalQueryKeys.global, 'ROUTER', userID, routerVersion] as const,
 };
 
 // Fetch menu from server side
-const getDefaultDynamicMenu = (): MenuItemType[] => {
+const getDefaultDynamicMenu = async (): Promise<MenuItemType[]> => {
   // return httpService.get('document/v1/default-dynamic-menu');
   // Image this data from API server side
-  return [
+  const globalMenu: MenuItemType[] = [
     {
       label: 'common.record',
       to: '/report-stray',
@@ -43,13 +46,14 @@ const getDefaultDynamicMenu = (): MenuItemType[] => {
       type: 'component',
     },
   ];
+  return Promise.resolve(globalMenu);
 };
 
 // Fetch router from server side
-const getDynamicRouters = () => {
+const getDynamicRouters = (): Promise<RouteObject[]> => {
   // return httpService.get('document/v1/default-dynamic-menu');
   // Image this data from API server side
-  const routes = [
+  const routes: RouteObject[] = [
     {
       element: 'rootLayout',
       children: [
@@ -100,20 +104,22 @@ const getDynamicRouters = () => {
   return Promise.resolve(routes);
 };
 
-export const useFetchGlobalMenu = (userID: string) => {
+export const useFetchGlobalMenu = (userID?: string) => {
   return useQuery({
-    queryKey: [HomeQueryKeys.GET_DEFAULT_MENU, userID],
+    queryKey: [GlobalQueryKeys.menu, userID],
     queryFn: getDefaultDynamicMenu,
+    staleTime: Infinity,
     meta: {
       isPersist: true,
     },
   });
 };
 
-export const useFetchGlobalRouters = (userID: string) => {
-  return useQuery<RouteObject[]>({
-    queryKey: [HomeQueryKeys.GET_DEFAULT_ROUTER, userID],
+export const useFetchGlobalRouters = (userID?: string) => {
+  return useQuery({
+    queryKey: [GlobalQueryKeys.router, userID],
     queryFn: getDynamicRouters,
+    staleTime: Infinity,
     meta: {
       isPersist: true,
     },

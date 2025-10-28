@@ -1,6 +1,8 @@
 export type UserInfoType = {
   userName: string;
   userID: string;
+  globalMenuVersion: string;
+  globalRouterVersion: string;
   [key: string]: unknown;
 };
 
@@ -10,7 +12,5 @@ export type AuthFieldType = {
   phoneNumber?: string;
 };
 export type LoginInfo = {
-  accessToken: string;
-  refreshToken: string;
   baseUserInfo: UserInfoType;
 };
