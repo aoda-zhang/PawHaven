@@ -1,8 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import type { RouteObject } from 'react-router-dom';
 
+import type { MenuItemType } from '@/types/LayoutType';
+
+export const HomeQueryKeys = {
+  GET_DEFAULT_MENU: 'GET_DEFAULT_MENU',
+  GET_DEFAULT_ROUTER: 'GET_DEFAULT_ROUTER',
+};
+
 // Fetch menu from server side
-const getDefaultDynamicMenu = () => {
+const getDefaultDynamicMenu = (): MenuItemType[] => {
   // return httpService.get('document/v1/default-dynamic-menu');
   // Image this data from API server side
   return [
@@ -93,21 +100,22 @@ const getDynamicRouters = () => {
   return Promise.resolve(routes);
 };
 
-export const HomeQueryKeys = {
-  GET_DEFAULT_TRIP_MENU: 'GET_DEFAULT_TRIP_MENU',
-  GET_DEFAULT_TRIP_ROUTER: 'GET_DEFAULT_TRIP_ROUTER',
-};
-
 export const useFetchGlobalMenu = (userID: string) => {
   return useQuery({
-    queryKey: [HomeQueryKeys.GET_DEFAULT_TRIP_MENU, userID],
+    queryKey: [HomeQueryKeys.GET_DEFAULT_MENU, userID],
     queryFn: getDefaultDynamicMenu,
+    meta: {
+      isPersist: true,
+    },
   });
 };
 
 export const useFetchGlobalRouters = (userID: string) => {
   return useQuery<RouteObject[]>({
-    queryKey: [HomeQueryKeys.GET_DEFAULT_TRIP_ROUTER, userID],
+    queryKey: [HomeQueryKeys.GET_DEFAULT_ROUTER, userID],
     queryFn: getDynamicRouters,
+    meta: {
+      isPersist: true,
+    },
   });
 };

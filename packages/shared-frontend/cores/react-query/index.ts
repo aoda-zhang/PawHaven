@@ -1,6 +1,7 @@
 import { QueryCache } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getReactQueryOptions = (envConfig: Record<string, any>) => {
   const {
     refetchOnReconnect = true,

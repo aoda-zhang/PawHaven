@@ -14,7 +14,7 @@ export interface MenuItemType {
   classNames?: string[];
   isAvailableOnMobile?: boolean;
   isOnlyMobile?: boolean;
-  component?: ReactElement;
+  component?: string | ReactElement;
   action?: string;
   props?: Record<string, unknown>;
   type: MenuType;

@@ -4,9 +4,8 @@ import { useMemo } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { useFetchGlobalRouters } from '@/layout/RootLayoutAPI';
 import routerElementMapping from '@/route/routerElementMapping';
-import type { GlobalStateType } from '@/store/globalReducer';
-import { useGlobalState } from '@/store/globalReducer';
 
 export interface RouteMetaType {
   isRequireUserLogin?: boolean;
@@ -39,21 +38,14 @@ const routesMapping = (routesFromAPI: any[]): RouteObject[] => {
 };
 
 const AppRouterProvider = () => {
-  const { globalRouters } = useGlobalState() as GlobalStateType;
-
-  const mappedRoutes = useMemo(() => {
-    if (globalRouters?.length > 0) {
-      return routesMapping(globalRouters);
-    }
-    return [];
-  }, [globalRouters]);
-
+  const { data: globalRouters = [] } = useFetchGlobalRouters('sda');
   const router = useMemo(() => {
-    if (mappedRoutes.length > 0) {
+    const mappedRoutes = routesMapping(globalRouters);
+    if (mappedRoutes?.length > 0) {
       return createBrowserRouter(mappedRoutes);
     }
     return null;
-  }, [mappedRoutes]);
+  }, [globalRouters]);
 
   if (router) {
     return <RouterProvider router={router} />;

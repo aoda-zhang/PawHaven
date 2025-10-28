@@ -2,11 +2,10 @@ import useRouterInfo from '@pawhaven/shared-frontend/hooks/useRouterInfo';
 import type { NavigateFunction, UIMatch } from 'react-router-dom';
 import { Outlet, useNavigate } from 'react-router-dom';
 
+import { useFetchGlobalMenu } from './RootLayoutAPI';
 import RootLayoutFooter from './RootLayoutFooter';
 import RootLayoutMenu from './RootLayoutMenu';
 
-import type { GlobalStateType } from '@/store/globalReducer';
-import { useGlobalState } from '@/store/globalReducer';
 import type { MenuItemType, RouterInfoType } from '@/types/LayoutType';
 
 export interface LayoutProps {
@@ -16,7 +15,7 @@ export interface LayoutProps {
 }
 
 const RootLayout = () => {
-  const { globalMenuItems } = useGlobalState() as GlobalStateType;
+  const { data: globalMenuItems = [] } = useFetchGlobalMenu('da');
   const navigate = useNavigate();
   const currentRouterInfo = useRouterInfo<RouterInfoType>();
   const { isMenuAvailable = true, isFooterAvailable = true } =
@@ -24,7 +23,7 @@ const RootLayout = () => {
 
   return (
     <div className="flex flex-col box-border h-full min-h-dvh">
-      {isMenuAvailable && (
+      {isMenuAvailable && globalMenuItems?.length > 0 && (
         <RootLayoutMenu
           menuItems={globalMenuItems}
           navigate={navigate}

@@ -9,12 +9,9 @@ import type { ReduxState } from './reduxStore';
 
 import storageKeys from '@/constants/StorageKeys';
 import type { UserInfoType } from '@/features/Auth/types';
-import type { MenuItemType } from '@/types/LayoutType';
 
 export interface GlobalStateType {
   userInfo: UserInfoType;
-  globalMenuItems: MenuItemType[];
-  globalRouters: [];
   locale: string;
 }
 const initialState: GlobalStateType = {
@@ -22,8 +19,6 @@ const initialState: GlobalStateType = {
     userName: '',
     userID: '',
   },
-  globalMenuItems: [],
-  globalRouters: [],
   locale: storageTool.get(storageKeys.I18NKEY) || LocaleKeys['en-US'],
 };
 
@@ -31,12 +26,6 @@ const globalReducer = createSlice({
   name: reducerNames.global,
   initialState,
   reducers: {
-    setGlobalMenuItems: (state, action) => {
-      state.globalMenuItems = action.payload;
-    },
-    setGlobalRouters: (state, action) => {
-      state.globalRouters = action.payload;
-    },
     setUserInfo: (state, action) => {
       state.userInfo = action.payload;
     },
@@ -44,8 +33,7 @@ const globalReducer = createSlice({
 });
 export default globalReducer.reducer;
 
-export const { setGlobalMenuItems, setUserInfo, setGlobalRouters } =
-  globalReducer.actions;
+export const { setUserInfo } = globalReducer.actions;
 export const useGlobalState = () => {
   return useReduxSelector(
     (state: ReduxState) => state?.global ?? {},
