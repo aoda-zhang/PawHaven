@@ -1,13 +1,11 @@
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 const SystemError = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const goToHome = () => {
-    navigate('/');
+    window.location.href = '/';
   };
 
   return (

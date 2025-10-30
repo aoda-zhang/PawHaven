@@ -6,6 +6,7 @@ import { useFetchGlobalMenu } from './RootLayoutAPI';
 import RootLayoutFooter from './RootLayoutFooter';
 import RootLayoutMenu from './RootLayoutMenu';
 
+import { useGlobalState } from '@/store/globalReducer';
 import type { MenuItemType, RouterInfoType } from '@/types/LayoutType';
 
 export interface LayoutProps {
@@ -15,7 +16,11 @@ export interface LayoutProps {
 }
 
 const RootLayout = () => {
-  const { data: globalMenuItems = [] } = useFetchGlobalMenu('da');
+  const { userInfo } = useGlobalState();
+  const { data: globalMenuItems = [] } = useFetchGlobalMenu(
+    userInfo?.userID,
+    userInfo?.globalMenuUpdateAt,
+  );
   const navigate = useNavigate();
   const currentRouterInfo = useRouterInfo<RouterInfoType>();
   const { isMenuAvailable = true, isFooterAvailable = true } =

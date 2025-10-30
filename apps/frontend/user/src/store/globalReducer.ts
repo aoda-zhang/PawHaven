@@ -18,8 +18,8 @@ const initialState: GlobalStateType = {
   userInfo: {
     userName: '',
     userID: '',
-    globalMenuVersion: '',
-    globalRouterVersion: '',
+    globalMenuUpdateAt: '',
+    globalRouterUpdateAt: '',
   },
   locale: storageTool.get(storageKeys.I18NKEY) || LocaleKeys['en-US'],
 };

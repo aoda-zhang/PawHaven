@@ -1,8 +1,8 @@
 export type UserInfoType = {
   userName: string;
   userID: string;
-  globalMenuVersion: string;
-  globalRouterVersion: string;
+  globalMenuUpdateAt: string;
+  globalRouterUpdateAt: string;
   [key: string]: unknown;
 };
 

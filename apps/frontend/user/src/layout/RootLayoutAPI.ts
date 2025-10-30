@@ -5,10 +5,16 @@ import type { MenuItemType } from '@/types/LayoutType';
 
 export const GlobalQueryKeys = {
   global: ['GLOBAL'] as const,
-  menu: (userID?: string, menuVersion?: string) =>
-    [...GlobalQueryKeys.global, 'MENU', userID, menuVersion] as const,
-  router: (userID?: string, routerVersion?: string) =>
-    [...GlobalQueryKeys.global, 'ROUTER', userID, routerVersion] as const,
+  menu: (userID?: string, menuUpdateAt?: string) =>
+    [...GlobalQueryKeys.global, 'MENU', 'LIST', userID, menuUpdateAt] as const,
+  router: (userID?: string, routerUpdateAt?: string) =>
+    [
+      ...GlobalQueryKeys.global,
+      'ROUTER',
+      'LIST',
+      userID,
+      routerUpdateAt,
+    ] as const,
 };
 
 // Fetch menu from server side
@@ -104,9 +110,9 @@ const getDynamicRouters = (): Promise<RouteObject[]> => {
   return Promise.resolve(routes);
 };
 
-export const useFetchGlobalMenu = (userID?: string) => {
+export const useFetchGlobalMenu = (userID?: string, menuUpdateAt?: string) => {
   return useQuery({
-    queryKey: [GlobalQueryKeys.menu, userID],
+    queryKey: GlobalQueryKeys.menu(userID, menuUpdateAt),
     queryFn: getDefaultDynamicMenu,
     staleTime: Infinity,
     meta: {
@@ -115,9 +121,12 @@ export const useFetchGlobalMenu = (userID?: string) => {
   });
 };
 
-export const useFetchGlobalRouters = (userID?: string) => {
+export const useFetchGlobalRouters = (
+  userID?: string,
+  routerUpdateAt?: string,
+) => {
   return useQuery({
-    queryKey: [GlobalQueryKeys.router, userID],
+    queryKey: GlobalQueryKeys.router(userID, routerUpdateAt),
     queryFn: getDynamicRouters,
     staleTime: Infinity,
     meta: {

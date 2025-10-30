@@ -23,16 +23,14 @@ const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <Provider store={store}>
       <PersistGate loading={<Loading />} persistor={persistor}>
-        <Suspense fallback={<Loading />}>
-          <ErrorBoundary FallbackComponent={SystemError}>
-            <QueryProvider>
-              <ThemeProvider theme={MUITheme}>
-                <Toaster />
-                {children}
-              </ThemeProvider>
-            </QueryProvider>
-          </ErrorBoundary>
-        </Suspense>
+        <ErrorBoundary FallbackComponent={SystemError}>
+          <QueryProvider>
+            <ThemeProvider theme={MUITheme}>
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
+        </ErrorBoundary>
       </PersistGate>
     </Provider>
   );
