@@ -1,6 +1,9 @@
 {
   "extends": "./base.json",
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
     "module": "CommonJS", // Node.js standard module system
     "outDir": "dist", // Output directory for compiled JS (if needed)
     "types": ["node"], // Include Node.js types

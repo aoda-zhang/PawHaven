@@ -1,12 +1,9 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@pawhaven/tsconfig/node",
   "compilerOptions": {
-    "baseUrl": "",
-    "outDir": "build",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
     "paths": {
-      "@shared/*": ["../../../packages/shared-backend/*"],
+      "@pawhaven/shared-frontend": ["../../../packages/shared-backend/*"],
       "@modules/*": ["src/modules/*"]
     }
   },

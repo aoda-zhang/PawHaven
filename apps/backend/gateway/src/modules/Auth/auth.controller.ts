@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import CreateUserDTO from '@shared/DTO/Auth/create-user.dto';
-import { Schema } from 'mongoose';
+// import CreateUserDTO from '@shared/DTO/Auth/create-user.dto';
+import type { Schema } from 'mongoose';
 
-import { AuthService } from './auth.service';
+import type { AuthService } from './auth.service';
 import NoToken from './decorators/noToken.decorator';
 
 @Controller('auth')
@@ -11,12 +11,13 @@ export class AuthController {
 
   @NoToken()
   @Post('v1/register')
-  register(@Body() userInfo: CreateUserDTO) {
+  register(@Body() userInfo: any) {
     return this.authService.register(userInfo);
   }
 
   @NoToken()
   @Post('v1/login')
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async login(@Body() userInfo: { userName: string; password: string }) {
     return this.authService.login(userInfo?.userName, userInfo?.password);
   }

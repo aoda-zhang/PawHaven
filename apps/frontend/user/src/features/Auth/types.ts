@@ -1,9 +1,8 @@
-export type UserInfoType = {
+type UserInfoType = {
   userName: string;
   userID: string;
   globalMenuUpdateAt: string;
   globalRouterUpdateAt: string;
-  [key: string]: unknown;
 };
 
 export type AuthFieldType = {
@@ -11,6 +10,7 @@ export type AuthFieldType = {
   password?: string;
   phoneNumber?: string;
 };
-export type LoginInfo = {
+export type ProfileType = {
+  accessToken: string;
   baseUserInfo: UserInfoType;
 };

@@ -16,10 +16,12 @@ export interface LayoutProps {
 }
 
 const RootLayout = () => {
-  const { userInfo } = useGlobalState();
+  const {
+    profile: { baseUserInfo },
+  } = useGlobalState();
   const { data: globalMenuItems = [] } = useFetchGlobalMenu(
-    userInfo?.userID,
-    userInfo?.globalMenuUpdateAt,
+    baseUserInfo?.userID,
+    baseUserInfo?.globalMenuUpdateAt,
   );
   const navigate = useNavigate();
   const currentRouterInfo = useRouterInfo<RouterInfoType>();

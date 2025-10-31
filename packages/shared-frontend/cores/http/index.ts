@@ -9,7 +9,7 @@ import axios, {
 import getLocale from '../../utils/getLocale';
 
 import { generateSign, getUTCTimestamp } from './encrypt';
-import httpErrorHandler from './errorHandle';
+import normalizeHttpError from './errorHandle';
 
 /**
  * Configuration options for creating an API client instance.
@@ -17,7 +17,6 @@ import httpErrorHandler from './errorHandle';
 export interface ApiClientOptions {
   baseURL: string; // The base URL for API requests
   timeout?: number; // Optional request timeout
-  accessToken: string; // Optional token getter
   enableSign?: boolean; // Whether to use signature validation
   prefix: string; // endpoint prefix
   privateKey: string; // HMA key
@@ -30,7 +29,6 @@ const createApiClient = (options: ApiClientOptions) => {
   const {
     baseURL,
     timeout = 20000,
-    accessToken,
     enableSign = true,
     prefix,
     privateKey,
@@ -42,7 +40,7 @@ const createApiClient = (options: ApiClientOptions) => {
     const timestamp = `${getUTCTimestamp()}`;
     const headers: Record<string, any> = {
       Accept: 'application/json',
-      'Access-Token': accessToken,
+      'Access-Token': '',
       'X-timestamp': timestamp,
       Locale: getLocale(),
     };
@@ -66,8 +64,7 @@ const createApiClient = (options: ApiClientOptions) => {
       return combinedConfig;
     },
     (error) => {
-      httpErrorHandler(error);
-      return Promise.reject(error?.message);
+      throw normalizeHttpError(error);
     },
   );
 
@@ -81,12 +78,10 @@ const createApiClient = (options: ApiClientOptions) => {
       ) {
         return Promise.resolve(response?.data?.data);
       }
-      httpErrorHandler(response?.data);
-      return Promise.reject(response?.data);
+      throw normalizeHttpError(response?.data);
     },
     (error) => {
-      httpErrorHandler(error?.response?.data);
-      return Promise.reject(error);
+      throw normalizeHttpError(error?.response?.data || error);
     },
   );
 

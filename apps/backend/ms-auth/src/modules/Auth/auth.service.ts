@@ -1,18 +1,18 @@
-import { User } from '@models/user.schema';
-import CreateUserDTO from '@modules/User/dto/create-user.dto';
-import { UserAccessInfo } from '@modules/User/dto/interface';
-import UserInfoDTO from '@modules/User/dto/userInfo.dto';
-import { UserService } from '@modules/User/user.service';
+import type { User } from '@models/user.schema';
+import type { CreateUserDTO } from '@modules/User/dto/create-user.dto';
+import type { UserAccessInfo } from '@modules/User/dto/interface';
+import type { UserInfoDTO } from '@modules/User/dto/userInfo.dto';
+import type { UserService } from '@modules/User/user.service';
 import {
   BadRequestException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import type { ConfigService } from '@nestjs/config';
+import type { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { Model, Schema } from 'mongoose';
+import type { Model, Schema } from 'mongoose';
 import GatewayDBCollections from 'src/models/auth.DBcollection';
 
 @Injectable()
@@ -31,18 +31,18 @@ export class AuthService {
     private configService: ConfigService,
     private userService: UserService,
   ) {
-    this.tokenSecret = this.configService.get('auth.secret');
-    this.tokenExpiresIn = this.configService.get('auth.ttl');
-    this.refreshTokenSecret = this.configService.get('auth.refreshSecret');
-    this.refreshTokenExpiresIn = this.configService.get('auth.refreshTTL');
+    this.tokenSecret = this.configService.get('auth.secret')!;
+    this.tokenExpiresIn = this.configService.get('auth.ttl')!;
+    this.refreshTokenSecret = this.configService.get('auth.refreshSecret')!;
+    this.refreshTokenExpiresIn = this.configService.get('auth.refreshTTL')!;
   }
 
   register = async (userInfo: CreateUserDTO) => {
-    const salt = await bcrypt.genSaltSync(
+    const salt = bcrypt.genSaltSync(
       Number(this.configService.get<number>('auth.saltRounds')),
     );
 
-    const hashPwd = await bcrypt.hashSync(userInfo?.password, salt);
+    const hashPwd = bcrypt.hashSync(userInfo?.password, salt);
     try {
       await new this.UserModel({ ...userInfo, password: hashPwd, salt }).save();
       return true;
@@ -90,7 +90,7 @@ export class AuthService {
   verifyUser = async (userName: string, pwd: string) => {
     try {
       const userInfo = await this.userService.getUserInfo(userName);
-      const isPasswordMatch = await bcrypt.compareSync(pwd, userInfo?.password);
+      const isPasswordMatch = bcrypt.compareSync(pwd, userInfo?.password);
       if (!isPasswordMatch || !userInfo) {
         throw new UnauthorizedException('账户名与密码输入有误,请重新输入');
       }
@@ -104,11 +104,11 @@ export class AuthService {
 
   generateLoginInfo = async (userAccess: UserAccessInfo) => {
     try {
-      const accessToken = await this.jwtService.sign(userAccess, {
+      const accessToken = this.jwtService.sign(userAccess, {
         expiresIn: this.tokenExpiresIn,
         secret: this.tokenSecret,
       });
-      const refreshToken = await this.jwtService.sign(userAccess, {
+      const refreshToken = this.jwtService.sign(userAccess, {
         expiresIn: this.refreshTokenExpiresIn,
         secret: this.refreshTokenSecret,
       });

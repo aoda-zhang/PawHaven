@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@aoda/shared",
+  "name": "@pawhaven/shared-backend",
   "version": "1.0.0",
   "engines": {
     "node": ">=22",

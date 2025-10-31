@@ -8,18 +8,21 @@ import reducerNames from './reducerNames';
 import type { ReduxState } from './reduxStore';
 
 import storageKeys from '@/constants/StorageKeys';
-import type { UserInfoType } from '@/features/Auth/types';
+import type { ProfileType } from '@/features/Auth/types';
 
 export interface GlobalStateType {
-  userInfo: UserInfoType;
+  profile: ProfileType;
   locale: string;
 }
 const initialState: GlobalStateType = {
-  userInfo: {
-    userName: '',
-    userID: '',
-    globalMenuUpdateAt: '',
-    globalRouterUpdateAt: '',
+  profile: {
+    baseUserInfo: {
+      userName: '',
+      userID: '',
+      globalMenuUpdateAt: '',
+      globalRouterUpdateAt: '',
+    },
+    accessToken: '',
   },
   locale: storageTool.get(storageKeys.I18NKEY) || LocaleKeys['en-US'],
 };
@@ -28,14 +31,14 @@ const globalReducer = createSlice({
   name: reducerNames.global,
   initialState,
   reducers: {
-    setUserInfo: (state, action) => {
-      state.userInfo = action.payload;
+    setProfile: (state, action) => {
+      state.profile = action.payload;
     },
   },
 });
 export default globalReducer.reducer;
 
-export const { setUserInfo } = globalReducer.actions;
+export const { setProfile } = globalReducer.actions;
 export const useGlobalState = () => {
   return useReduxSelector(
     (state: ReduxState) => state?.global ?? {},

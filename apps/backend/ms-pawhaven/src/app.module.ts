@@ -1,21 +1,21 @@
-import path from 'node:path';
+// import * as path from 'node:path';
 
-import { TripModule } from '@modules/Trip/trip.module';
+import { PawhavenModule } from '@modules/Pawhaven/pawhaven.module';
 import { Module } from '@nestjs/common';
-import { EnvConstant } from '@shared/constants/constant';
-import SharedModule from '@shared/shared.module';
+// import { EnvConstant } from '@pawhaven/shared-backend/constants/constant';
+// import SharedModule from '@pawhaven/shared-backend/shared.module';
 
-const currentEnv = process.env.NODE_ENV ?? 'uat';
-const configFilePath = path.resolve(
-  __dirname,
-  `./config/${EnvConstant[currentEnv]}/env/index.yaml`,
-);
+// const currentEnv = process.env.NODE_ENV ?? 'uat';
+// const configFilePath = path.resolve(
+//   __dirname,
+//   `./config/${EnvConstant[currentEnv]}/env/index.yaml`,
+// );
 @Module({
   imports: [
-    SharedModule.forRoot({
-      configFilePath,
-    }),
-    TripModule,
+    // SharedModule.forRoot({
+    //   configFilePath,
+    // }),
+    PawhavenModule,
   ],
   providers: [],
 })

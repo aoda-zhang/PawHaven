@@ -1,23 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import type { AuthFieldType, LoginInfo } from '../types';
+import type { AuthFieldType, ProfileType } from '../types';
 
 import * as AuthAPI from './requests';
 
 import { useReduxDispatch } from '@/hooks/reduxHooks';
-import { setUserInfo } from '@/store/globalReducer';
+import { setProfile } from '@/store/globalReducer';
 
 export const useLogin = () => {
   const navigate = useNavigate();
   const dispatch = useReduxDispatch();
-  return useMutation<LoginInfo, Error, AuthFieldType>({
+  return useMutation<ProfileType, Error, AuthFieldType>({
     mutationFn: (userInfo: AuthFieldType) => AuthAPI.login(userInfo),
     onSuccess: (loginInfo) => {
-      if (loginInfo?.baseUserInfo) {
-        dispatch(setUserInfo(loginInfo?.baseUserInfo));
-        navigate('/');
-      }
+      dispatch(setProfile(loginInfo));
+      navigate('/');
     },
   });
 };
@@ -25,13 +23,11 @@ export const useLogin = () => {
 export const useRegister = () => {
   const navigate = useNavigate();
   const dispatch = useReduxDispatch();
-  return useMutation<LoginInfo, Error, AuthFieldType>({
+  return useMutation<ProfileType, Error, AuthFieldType>({
     mutationFn: (userInfo: AuthFieldType) => AuthAPI.register(userInfo),
     onSuccess: (loginInfo) => {
-      if (loginInfo?.baseUserInfo) {
-        dispatch(setUserInfo(loginInfo?.baseUserInfo));
-        navigate('/');
-      }
+      dispatch(setProfile(loginInfo));
+      navigate('/');
     },
   });
 };

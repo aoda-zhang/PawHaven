@@ -32,7 +32,8 @@ export const Versions = {
 };
 
 type VersionType = (typeof Versions)[keyof typeof Versions];
-type MicroServiceNameType = (typeof MicroServiceNames)[keyof typeof MicroServiceNames];
+type MicroServiceNameType =
+  (typeof MicroServiceNames)[keyof typeof MicroServiceNames];
 export type MSMessagePatternType = {
   [key: string]: `${MicroServiceNameType}.${string}.${VersionType}`;
 };

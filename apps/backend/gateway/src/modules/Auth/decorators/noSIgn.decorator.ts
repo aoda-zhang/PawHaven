@@ -1,5 +1,6 @@
 // No need Sign validation
-import { CustomDecorator, SetMetadata } from '@nestjs/common';
+import type { CustomDecorator } from '@nestjs/common';
+import { SetMetadata } from '@nestjs/common';
 import { Decorators } from '@shared/constants/enum';
 
 const NoSign = (): CustomDecorator<Decorators> =>

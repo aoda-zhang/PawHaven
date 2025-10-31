@@ -1,56 +1,56 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import toast from 'react-hot-toast';
-
 import { HttpBusinessMappingCode } from './types';
 
-// const jwtExpiredHandle = async () => {
-//   try {
-//     if (storageTool.get(commonHeader.refreshToken)) {
-//       const newAuthToken = await AuthAPI.refreshToken({
-//         refreshToken: storageTool.get(commonHeader.refreshToken),
-//       });
-//       await storageTool.set(
-//         commonHeader['access-token'],
-//         newAuthToken?.accessToken,
-//       );
-//       await storageTool.set(
-//         commonHeader.refreshToken,
-//         newAuthToken?.refreshToken,
-//       );
-//     }
-//     throw new Error('登陆信息有误，请重新检查');
-//   } catch (error) {
-//     message.error(`登陆信息有误，请重新检查！${error}`);
-//     await storageTool.remove(commonHeader['access-token']);
-//     await storageTool.remove(commonHeader.refreshToken);
-//     if (typeof window !== 'undefined') {
-//       // eslint-disable-next-line no-undef
-//       window.location.href = '/login';
-//     }
-//   }
-// };
+const normalizeHttpError = (error: any) => {
+  const status = error?.status ?? error?.statusCode ?? error?.response?.status;
+  const data = error?.data ?? error?.response?.data;
+  const message =
+    error?.message ||
+    data?.message ||
+    error?.response?.statusText ||
+    '发生未知错误';
 
-const httpErrorHandler = async (error: {
-  data: any;
-  isSuccess?: boolean;
-  message: any;
-  status: any;
-  statusCode?: any;
-}) => {
-  if (error?.data === HttpBusinessMappingCode.jwtexpired) {
-    // jwtExpiredHandle();
+  if (data === HttpBusinessMappingCode.jwtexpired) {
+    return {
+      type: 'AUTH' as const,
+      status,
+      message: '登录信息已过期，请重新登录',
+      data,
+    };
   }
-  switch (error?.status ?? error?.statusCode) {
-    case 401:
-    case 403:
-      // jwtExpiredHandle();
-      break;
-    case 500:
-      toast.error(error?.message);
-      break;
-    default:
-      toast.error(error?.message);
+
+  if (status === 401 || status === 403) {
+    return {
+      type: 'AUTH' as const,
+      status,
+      message,
+      data,
+    };
   }
+
+  if (status === 500) {
+    return {
+      type: 'HTTP' as const,
+      status,
+      message,
+      data,
+    };
+  }
+
+  if (!status) {
+    return {
+      type: 'NETWORK' as const,
+      message: '网络错误，请检查您的网络连接',
+      data,
+    };
+  }
+
+  return {
+    type: 'BUSINESS' as const,
+    status,
+    message,
+    data,
+  };
 };
 
-export default httpErrorHandler;
+export default normalizeHttpError;

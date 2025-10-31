@@ -1,12 +1,11 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "@pawhaven/tsconfig/node",
   "compilerOptions": {
-    "baseUrl": "",
-    "outDir": "build",
+    "baseUrl": ".",
     "paths": {
-      "@shared/*": ["../../../packages/shared-backend/*"],
+      "@pawhaven/shared-frontend": ["../../../packages/shared-backend/*"],
       "@modules/*": ["src/modules/*"]
     }
   },
-  "include": ["src"]
+  "exclude": ["node_modules"]
 }

@@ -19,12 +19,8 @@ module.exports = {
     'plugin:node/recommended', // Adds recommended Node.js rules
   ],
 
-  // Plugins specific to Node or backend development
-  plugins: [...baseEslintConfig.plugins, 'node'],
-
   rules: {
     ...baseEslintConfig.rules,
-
     // Node.js specific adjustments
     'no-console': 'off', // Allow console for server logging
     'node/no-unsupported-features/es-syntax': [
@@ -49,5 +45,20 @@ module.exports = {
     'import/order': ['warn', { 'newlines-between': 'always' }], // Enforce import order
     'class-methods-use-this': 'off', // Service methods may not use 'this'
     'max-classes-per-file': ['warn', 1], // One class per file
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        endOfLine: 'auto',
+      },
+    ],
+    'no-underscore-dangle': 'warn',
+    '@typescript-eslint/consistent-type-imports': 'off',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    'prettier/prettier': 'off',
+    '@typescript-eslint/consistent-type-imports': 'off',
   },
 };

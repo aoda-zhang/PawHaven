@@ -1,7 +1,6 @@
 {
   "private": "true",
-  "name": "@pawhaven/honey-service",
-  "main": "build/main.js",
+  "name": "@pawhaven/user-service",
   "version": "1.0.0",
   "engines": {
     "node": ">=22",
@@ -20,6 +19,9 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.6",
     "@nestjs/jwt": "^11.0.1",
+    "@pawhaven/eslint-config": "workspace:*",
+    "@pawhaven/shared-backend": "workspace:*",
+    "@pawhaven/tsconfig": "workspace:*",
     "@nestjs/microservices": "^11.1.6",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/passport": "^11.0.5",

@@ -1,15 +1,14 @@
 import { log } from 'node:console';
 
+import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import {
   BadRequestException,
-  CanActivate,
-  ExecutionContext,
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
+import type { ConfigService } from '@nestjs/config';
+import type { Reflector } from '@nestjs/core';
+import type { JwtService } from '@nestjs/jwt';
 import { Decorators, LocaleKeys } from '@shared/constants/enum';
 import {
   HttpBusinessCode,
