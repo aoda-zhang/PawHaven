@@ -69,11 +69,17 @@ class HttpClientInstance {
             );
 
             if (error?.code === 'ECONNABORTED') {
-              throw new HttpException('Request timeout', HttpStatus.GATEWAY_TIMEOUT);
+              throw new HttpException(
+                'Request timeout',
+                HttpStatus.GATEWAY_TIMEOUT,
+              );
             }
 
             if (!error?.response) {
-              throw new HttpException('Service unavailable', HttpStatus.SERVICE_UNAVAILABLE);
+              throw new HttpException(
+                'Service unavailable',
+                HttpStatus.SERVICE_UNAVAILABLE,
+              );
             }
 
             throw new HttpException(
@@ -86,7 +92,10 @@ class HttpClientInstance {
 
       return response;
     } catch (error) {
-      this.logger.error(`Final request failed: ${method.toUpperCase()} ${url}`, error.message);
+      this.logger.error(
+        `Final request failed: ${method.toUpperCase()} ${url}`,
+        error.message,
+      );
       throw error;
     }
   }

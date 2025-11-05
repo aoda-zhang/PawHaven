@@ -9,6 +9,6 @@ export enum commonHeader {
   refreshToken = 'refreshToken',
 }
 export enum HttpBusinessMappingCode {
-  jwtexpired = 'E4001',
+  jwtExpired = 'E401',
   unauthorized = 'Unauthorized',
 }

@@ -6,8 +6,8 @@ type UserInfoType = {
 };
 
 export type AuthFieldType = {
-  userName?: string;
-  password?: string;
+  userName: string;
+  password: string;
   phoneNumber?: string;
 };
 export type ProfileType = {

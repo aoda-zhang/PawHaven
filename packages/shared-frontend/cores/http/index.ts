@@ -20,6 +20,7 @@ export interface ApiClientOptions {
   enableSign?: boolean; // Whether to use signature validation
   prefix: string; // endpoint prefix
   privateKey: string; // HMA key
+  withCredentials?: boolean; // Is send cookies to backend automatically
 }
 
 /**
@@ -32,39 +33,42 @@ const createApiClient = (options: ApiClientOptions) => {
     enableSign = true,
     prefix,
     privateKey,
+    withCredentials = true,
   } = options;
 
-  const Http: AxiosInstance = axios.create({ baseURL, timeout });
+  const Http: AxiosInstance = axios.create({
+    baseURL,
+    timeout,
+    withCredentials,
+  });
 
   const getHttpHeaders = (config: Record<string, any>) => {
     const timestamp = `${getUTCTimestamp()}`;
     const headers: Record<string, any> = {
       Accept: 'application/json',
-      'Access-Token': '',
       'X-timestamp': timestamp,
-      Locale: getLocale(),
+      'X-locale': getLocale(),
     };
-    if (enableSign)
+    if (enableSign) {
       headers['X-sign'] = generateSign({
         config,
         timestamp,
         prefix,
         privateKey,
       });
+    }
+
     return headers;
   };
 
   // ✅ Request interceptor with proper typing
   Http.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      const combinedConfig = {
-        headers: config?.headers ?? {},
-        ...getHttpHeaders(config),
-      };
-      return combinedConfig;
+      Object.assign(config.headers ?? {}, getHttpHeaders(config));
+      return config;
     },
     (error) => {
-      throw normalizeHttpError(error);
+      return Promise.reject(normalizeHttpError(error));
     },
   );
 
@@ -76,12 +80,14 @@ const createApiClient = (options: ApiClientOptions) => {
         response?.data?.status < 400 &&
         response?.data?.isSuccess
       ) {
-        return Promise.resolve(response?.data?.data);
+        return response.data.data;
       }
-      throw normalizeHttpError(response?.data);
+      const err = normalizeHttpError(response.data);
+      return Promise.reject(new Error(err.message || 'Unknown error'));
     },
     (error) => {
-      throw normalizeHttpError(error?.response?.data || error);
+      const err = normalizeHttpError(error);
+      return Promise.reject(new Error(err.message || 'Unknown network error'));
     },
   );
 
@@ -114,7 +120,6 @@ const createApiClient = (options: ApiClientOptions) => {
     ): Promise<T> {
       return Http.put(url, data, { ...config });
     },
-    raw: Http,
   };
 };
 
