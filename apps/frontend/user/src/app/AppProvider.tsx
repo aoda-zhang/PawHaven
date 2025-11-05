@@ -2,7 +2,7 @@ import { ThemeProvider } from '@mui/material';
 import '@pawhaven/theme/globalTailwind.css';
 import MUITheme from '@pawhaven/theme/MUI-theme';
 import { Loading } from '@pawhaven/ui';
-import { type ReactNode, Suspense } from 'react';
+import { type ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';

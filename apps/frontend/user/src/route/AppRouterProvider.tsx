@@ -1,6 +1,6 @@
 import { Loading, SuspenseWrapper } from '@pawhaven/ui';
 import type { ReactNode } from 'react';
-import { Suspense, useMemo } from 'react';
+import { useMemo } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -39,10 +39,12 @@ const routesMapping = (routesFromAPI: any[]): RouteObject[] => {
 };
 
 const AppRouterProvider = () => {
-  const { userInfo } = useGlobalState();
+  const {
+    profile: { baseUserInfo },
+  } = useGlobalState();
   const { data: globalRouters = [] } = useFetchGlobalRouters(
-    userInfo?.userID,
-    userInfo?.globalRouterUpdateAt,
+    baseUserInfo?.userID,
+    baseUserInfo?.globalRouterUpdateAt,
   );
   const router = useMemo(() => {
     const mappedRoutes = routesMapping(globalRouters);

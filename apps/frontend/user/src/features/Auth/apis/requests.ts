@@ -1,17 +1,17 @@
-import type { AuthFieldType, LoginInfo } from '../types';
+import type { AuthFieldType, ProfileType } from '../types';
 
 import { apiClient } from '@/utils/apiClient';
 
-export const register = (userInfo: AuthFieldType): Promise<LoginInfo> => {
+export const register = (userInfo: AuthFieldType): Promise<ProfileType> => {
   return apiClient.post('/auth/register', userInfo);
 };
 
-export const login = (userInfo: AuthFieldType): Promise<LoginInfo> => {
+export const login = (userInfo: AuthFieldType): Promise<ProfileType> => {
   return apiClient.post('/auth/v1/login', userInfo);
 };
 
 export const refreshToken = (token: {
   refreshToken: string;
-}): Promise<LoginInfo> => {
+}): Promise<ProfileType> => {
   return apiClient.post('/auth/v1/refresh', token);
 };
