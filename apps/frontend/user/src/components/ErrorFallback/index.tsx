@@ -1,28 +1,36 @@
+import { useEffect, type ReactElement } from 'react';
 import { useRouteError } from 'react-router-dom';
 
 import NotFund from '../NotFund';
 import SystemError from '../SystemError';
 
-import useIsProd from '@/hooks/useIsProd';
+import useIsStableEnv from '@/hooks/useIsStableEnv';
 
-interface ErrorInfo {
+export interface ErrorInfo {
   status: number;
   statusText?: string;
+  data?: string | ReactElement;
 }
 
 const ErrorFallback = () => {
   const errorInfo = useRouteError() as Partial<ErrorInfo>;
-  const isProd = useIsProd();
-  if (!isProd) {
-    console.error('current errorInfo:', JSON.stringify(errorInfo));
-  }
+  const IsStableEnv = useIsStableEnv();
+  useEffect(() => {
+    if (IsStableEnv) {
+      // report issues to Sentry
+    }
+    if (!IsStableEnv) {
+      console.error('current errorInfo:', JSON.stringify(errorInfo));
+    }
+  }, [errorInfo, IsStableEnv]);
+
   switch (errorInfo?.status) {
     case 404:
-      return <NotFund />;
+      return <NotFund error={errorInfo} />;
     case 500:
-      return <SystemError />;
+      return <SystemError error={errorInfo} />;
     default:
-      return <SystemError />;
+      return <SystemError error={errorInfo} />;
   }
 };
 

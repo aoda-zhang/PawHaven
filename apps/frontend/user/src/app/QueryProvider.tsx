@@ -3,21 +3,24 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import envConfig from '../config';
 
-import useIsProd from '@/hooks/useIsProd';
-
-const queryClient = new QueryClient(getReactQueryOptions(envConfig));
-
-const asyncStoragePersister = createAsyncStoragePersister({
-  storage: window.localStorage,
-  key: 'PAWHAVEN_DATA_PERSIST',
-});
+import useIsStableEnv from '@/hooks/useIsStableEnv';
 
 const QueryProvider = ({ children }: { children: ReactNode }) => {
-  const isProd = useIsProd();
+  const IsStableEnv = useIsStableEnv();
+  const [queryClient] = useState(
+    () => new QueryClient(getReactQueryOptions(envConfig)),
+  );
+
+  const [asyncStoragePersister] = useState(() =>
+    createAsyncStoragePersister({
+      storage: window.localStorage,
+      key: 'PAWHAVEN_DATA_PERSIST',
+    }),
+  );
 
   return (
     <PersistQueryClientProvider
@@ -25,7 +28,7 @@ const QueryProvider = ({ children }: { children: ReactNode }) => {
       persistOptions={{ persister: asyncStoragePersister }}
     >
       {children}
-      {!isProd && <ReactQueryDevtools initialIsOpen />}
+      {!IsStableEnv && <ReactQueryDevtools initialIsOpen />}
     </PersistQueryClientProvider>
   );
 };

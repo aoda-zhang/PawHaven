@@ -1,5 +1,6 @@
 import devYaml from './dev/env/index.yaml';
 import prodYaml from './prod/env/index.yaml';
+import testYaml from './test/env/index.yaml';
 import uatYaml from './uat/env/index.yaml';
 
 const environment = import.meta.env;
@@ -9,6 +10,7 @@ export const EnvVariables = {
   dev: 'dev',
   uat: 'uat',
   prod: 'prod',
+  test: 'test',
 };
 
 const getConfigs = () => {
@@ -18,6 +20,8 @@ const getConfigs = () => {
         return devYaml;
       case EnvVariables.uat:
         return uatYaml;
+      case EnvVariables.test:
+        return testYaml;
       case EnvVariables.prod:
         return prodYaml;
       default:
