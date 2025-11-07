@@ -1136,9 +1136,15 @@ importers:
       '@pawhaven/eslint-config':
         specifier: workspace:*
         version: link:../../libs/configs/eslint-config
+      '@pawhaven/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@pawhaven/tsconfig':
         specifier: workspace:*
         version: link:../../libs/configs/tsconfig
+      '@pawhaven/ui':
+        specifier: workspace:*
+        version: link:../ui
       '@tanstack/react-query':
         specifier: ^5.90.2
         version: 5.90.2(react@19.2.0)
@@ -1163,6 +1169,9 @@ importers:
       history:
         specifier: ^5.3.0
         version: 5.3.0
+      i18next:
+        specifier: ^25.6.0
+        version: 25.6.0(typescript@5.9.3)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1181,6 +1190,9 @@ importers:
       react-hot-toast:
         specifier: ^2.6.0
         version: 2.6.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-i18next:
+        specifier: ^16.0.0
+        version: 16.0.0(i18next@25.6.0(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
       react-router-dom:
         specifier: ^7.9.4
         version: 7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1224,6 +1236,9 @@ importers:
       '@pawhaven/eslint-config':
         specifier: workspace:*
         version: link:../../libs/configs/eslint-config
+      '@pawhaven/theme':
+        specifier: workspace:*
+        version: link:../theme
       '@pawhaven/tsconfig':
         specifier: workspace:*
         version: link:../../libs/configs/tsconfig

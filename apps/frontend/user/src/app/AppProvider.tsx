@@ -1,10 +1,9 @@
 import { ThemeProvider } from '@mui/material';
 import '@pawhaven/theme/globalTailwind.css';
 import MUITheme from '@pawhaven/theme/MUI-theme';
-import { Loading } from '@pawhaven/ui';
+import { Loading, Notification } from '@pawhaven/ui';
 import { type ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 // Enable i18n for the entire app
@@ -26,7 +25,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
         <ErrorBoundary FallbackComponent={SystemError}>
           <QueryProvider>
             <ThemeProvider theme={MUITheme}>
-              <Toaster />
+              <Notification />
               {children}
             </ThemeProvider>
           </QueryProvider>

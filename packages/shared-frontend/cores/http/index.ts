@@ -10,18 +10,11 @@ import getLocale from '../../utils/getLocale';
 
 import { generateSign, getUTCTimestamp } from './encrypt';
 import normalizeHttpError from './errorHandle';
+import type { ApiClientOptions } from './types';
 
 /**
  * Configuration options for creating an API client instance.
  */
-export interface ApiClientOptions {
-  baseURL: string; // The base URL for API requests
-  timeout?: number; // Optional request timeout
-  enableSign?: boolean; // Whether to use signature validation
-  prefix: string; // endpoint prefix
-  privateKey: string; // HMA key
-  withCredentials?: boolean; // Is send cookies to backend automatically
-}
 
 /**
  * Factory function to create a reusable API client with common interceptors and headers.
@@ -82,12 +75,10 @@ const createApiClient = (options: ApiClientOptions) => {
       ) {
         return response.data.data;
       }
-      const err = normalizeHttpError(response.data);
-      return Promise.reject(new Error(err.message || 'Unknown error'));
+      return Promise.reject(normalizeHttpError(response.data));
     },
     (error) => {
-      const err = normalizeHttpError(error);
-      return Promise.reject(new Error(err.message || 'Unknown network error'));
+      return Promise.reject(normalizeHttpError(error));
     },
   );
 

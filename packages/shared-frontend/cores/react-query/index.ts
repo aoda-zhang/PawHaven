@@ -1,60 +1,55 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { showNotification } from '@pawhaven/ui';
 import { QueryCache, MutationCache } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import i18n, { t } from 'i18next';
+import '@pawhaven/i18n';
 
-import { normalizeHttpError, httpRequestErrors } from '../http/errorHandle';
+import { httpRequestErrors, type ApiErrorInfo } from '../http/types';
 
-let lastErrorTime = 0;
-const showErrorToast = (msg: string) => {
-  const now = Date.now();
-  if (now - lastErrorTime > 3000) {
-    // Do not show duplicate toasts within 3 seconds
-    toast.error(msg);
-    lastErrorTime = now;
+interface RequestMeta {
+  isShowServerError?: boolean;
+  isShowClientError?: boolean;
+  [key: string]: unknown;
+}
+
+const showErrorToast = (errorCode: string) => {
+  let errorMessage = t('errorMessage.UNKNOWN_ERROR');
+  if (i18n.exists(`errorMessage.${errorCode}`)) {
+    errorMessage = t(`errorMessage.${errorCode}`);
   }
+  showNotification({ message: errorMessage, type: 'error' });
 };
 
-const handleError = (error: unknown, envConfig: Record<string, any>) => {
-  const normalized = normalizeHttpError(error);
-
-  switch (normalized.type) {
+const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
+  const metaData: RequestMeta = {
+    isShowClientError: true,
+    isShowServerError: true,
+    ...meta,
+  };
+  switch (errorInfo.type) {
     case httpRequestErrors.AUTH:
-      showErrorToast(normalized.message);
-      // Can trigger logout or redirect to login page logic
+      showErrorToast(errorInfo?.message);
       break;
     case httpRequestErrors.FORBIDDEN:
       showErrorToast('You do not have permission to perform this operation');
       break;
-    case httpRequestErrors.NETWORK:
-      showErrorToast('Network error, please check your connection');
-      break;
-    case httpRequestErrors.HTTP:
-      showErrorToast('Server error, please try again later');
-      break;
-    case httpRequestErrors.BUSINESS:
-      showErrorToast(normalized.message);
-      break;
-    default:
-      showErrorToast(
-        envConfig?.env === 'prod'
-          ? envConfig?.systemSettings?.errorMessage ||
-              'Request error, please try again later.'
-          : `Error: ${normalized.message}`,
-      );
-      break;
-  }
+    case httpRequestErrors.CLIENT:
+      if (metaData?.isShowClientError) {
+        showErrorToast(errorInfo.code);
+      }
 
-  // Optional: report to Sentry
-  if (
-    envConfig?.enableSentry &&
-    normalized.type !== httpRequestErrors.BUSINESS
-  ) {
-    // Sentry.captureException(normalized.raw);
+      break;
+    case httpRequestErrors.NETWORK:
+      if (metaData?.isShowServerError) {
+        showErrorToast(errorInfo.code);
+      }
+      break;
+
+    default:
+      showErrorToast('发生位置错误');
+      break;
   }
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getReactQueryOptions = (envConfig: Record<string, any>) => {
+const getReactQueryOptions = (envConfig: Record<string, never>) => {
   const {
     refetchOnReconnect = true,
     refetchOnWindowFocus = false,
@@ -69,12 +64,14 @@ const getReactQueryOptions = (envConfig: Record<string, any>) => {
         refetchOnWindowFocus,
         staleTime,
         cacheTime,
-        retry: (failureCount: number, error: unknown) => {
-          const normalized = normalizeHttpError(error);
+        retry: (failureCount: number, error: ApiErrorInfo) => {
           return (
             failureCount < 2 &&
-            (normalized.type === httpRequestErrors.NETWORK ||
-              (normalized.status ?? 0) >= 500)
+            [
+              httpRequestErrors.NETWORK,
+              httpRequestErrors.SERVER,
+              httpRequestErrors.UNKNOWN,
+            ].includes(error.type)
           );
         },
       },
@@ -84,13 +81,14 @@ const getReactQueryOptions = (envConfig: Record<string, any>) => {
       onError: (error, query) => {
         // Do not show errors for queries that already have data
         if (query.state.data !== undefined) return;
-        handleError(error, envConfig);
+        handleError(error as unknown as ApiErrorInfo, query?.meta ?? {});
       },
     }),
 
     mutationCache: new MutationCache({
-      onError: (error) => {
-        handleError(error, envConfig);
+      onError: (error, _variables, _context, mutation) => {
+        const meta = mutation.meta as Record<string, unknown> | undefined;
+        handleError(error as unknown as ApiErrorInfo, meta ?? {});
       },
     }),
   };
