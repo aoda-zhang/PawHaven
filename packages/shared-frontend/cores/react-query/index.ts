@@ -1,3 +1,4 @@
+import type { ToasterProps } from '@pawhaven/ui';
 import { showNotification } from '@pawhaven/ui';
 import { QueryCache, MutationCache } from '@tanstack/react-query';
 import i18n, { t } from 'i18next';
@@ -11,45 +12,55 @@ interface RequestMeta {
   [key: string]: unknown;
 }
 
-const showErrorToast = (errorCode: string) => {
-  let errorMessage = t('errorMessage.UNKNOWN_ERROR');
-  if (i18n.exists(`errorMessage.${errorCode}`)) {
-    errorMessage = t(`errorMessage.${errorCode}`);
-  }
-  showNotification({ message: errorMessage, type: 'error' });
+const showErrorToast = (
+  errorMessage: string,
+  errorNotificationOptions?: ToasterProps,
+) => {
+  showNotification({
+    message: errorMessage,
+    type: 'error',
+    ...(errorNotificationOptions ?? {}),
+  });
 };
 
 const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
+  let errorMessage = t('errorMessage.UNKNOWN_ERROR');
+  if (i18n.exists(`errorMessage.${errorInfo?.code}`)) {
+    errorMessage = t(`errorMessage.${errorInfo?.code}`);
+  }
   const metaData: RequestMeta = {
-    isShowClientError: true,
+    isShowClientError: false,
     isShowServerError: true,
     ...meta,
   };
   switch (errorInfo.type) {
     case httpRequestErrors.AUTH:
-      showErrorToast(errorInfo?.message);
+      showErrorToast(errorMessage, {
+        duration: 2000,
+      });
       break;
     case httpRequestErrors.FORBIDDEN:
-      showErrorToast('You do not have permission to perform this operation');
+      showErrorToast(errorMessage, {
+        duration: Infinity,
+      });
       break;
     case httpRequestErrors.CLIENT:
       if (metaData?.isShowClientError) {
-        showErrorToast(errorInfo.code);
+        showErrorToast(errorMessage);
       }
-
       break;
     case httpRequestErrors.NETWORK:
       if (metaData?.isShowServerError) {
-        showErrorToast(errorInfo.code);
+        showErrorToast(errorMessage);
       }
       break;
 
     default:
-      showErrorToast('发生位置错误');
+      showErrorToast(errorMessage);
       break;
   }
 };
-const getReactQueryOptions = (envConfig: Record<string, never>) => {
+const getRequestQueryOptions = (envConfig: Record<string, never>) => {
   const {
     refetchOnReconnect = true,
     refetchOnWindowFocus = false,
@@ -94,4 +105,4 @@ const getReactQueryOptions = (envConfig: Record<string, never>) => {
   };
 };
 
-export default getReactQueryOptions;
+export default getRequestQueryOptions;

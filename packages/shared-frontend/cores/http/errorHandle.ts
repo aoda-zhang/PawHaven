@@ -14,12 +14,21 @@ const normalizeHttpError = (error: unknown) => {
       // Determine error type by HTTP status
       // If status is 4xx, it's a client error; if 5xx, it's a server error
       let type = httpRequestErrors.HTTP;
-      if (status >= 400 && status < 500) {
-        type = httpRequestErrors.CLIENT;
-      } else if (status >= 500) {
+      if (status >= 500) {
         type = httpRequestErrors.SERVER;
+      } else {
+        switch (status) {
+          case 401:
+            type = httpRequestErrors.AUTH;
+            break;
+          case 403:
+            type = httpRequestErrors.FORBIDDEN;
+            break;
+          default:
+            type = httpRequestErrors.CLIENT;
+            break;
+        }
       }
-
       return {
         type,
         code,

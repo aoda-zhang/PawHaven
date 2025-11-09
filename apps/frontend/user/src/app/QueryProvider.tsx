@@ -1,4 +1,4 @@
-import getReactQueryOptions from '@pawhaven/shared-frontend/cores/react-query';
+import getRequestQueryOptions from '@pawhaven/shared-frontend/cores/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -12,7 +12,7 @@ import useIsStableEnv from '@/hooks/useIsStableEnv';
 const QueryProvider = ({ children }: { children: ReactNode }) => {
   const IsStableEnv = useIsStableEnv();
   const [queryClient] = useState(
-    () => new QueryClient(getReactQueryOptions(envConfig)),
+    () => new QueryClient(getRequestQueryOptions(envConfig)),
   );
 
   const [asyncStoragePersister] = useState(() =>

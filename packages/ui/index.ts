@@ -8,3 +8,4 @@ export { default as FormSelect } from './Form/FormSelect';
 export { default as SuspenseWrapper } from './SuspenseWrapper';
 export { default as Phase } from './Phase';
 export { default as Notification, showNotification } from './Notification';
+export type { ToasterProps } from './Notification';

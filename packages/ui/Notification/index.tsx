@@ -4,14 +4,14 @@ import React from 'react';
 import type { ToastOptions } from 'react-hot-toast';
 import toast, { Toaster } from 'react-hot-toast';
 
-type ToasterProps = Partial<
-  Pick<ToastOptions, 'position' | 'duration' | 'style' | 'iconTheme'>
->;
 const notificationType = {
   success: 'success',
   error: 'error',
 } as const;
 
+export type ToasterProps = Partial<
+  Pick<ToastOptions, 'position' | 'duration' | 'style' | 'iconTheme'>
+>;
 export interface NotificationProps {
   success?: ToasterProps;
   error?: ToasterProps;
