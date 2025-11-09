@@ -42,13 +42,6 @@ This project aims to provide that architecture by combining modern technology (R
 | **DevOps & Deployment**   | CI/CD, Docker, Kubernetes setup                  | [docs/devops.md](./docs/devops.md)            |
 | **Code Quality & Testing**| ESLint, Prettier, Husky, Commitlint, Testing    | [docs/code‑quality.md](./docs/code‑quality.md) |
 
-
----
-
-### 📝 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
-
 ---
 
 **PawHaven** — where technology meets compassion, and every paw matters 🐾❤️
