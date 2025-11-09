@@ -12,10 +12,9 @@
 
 ---
 
-A robust, maintainable, and scalable full‑stack enterprise project built from scratch following best practices for both React (frontend) and NestJS (backend).  
-It showcases the complete lifecycle of a production-ready application—from designing modular architecture, writing clean and scalable code, to implementing CI/CD pipelines, testing, deployment, and monitoring—applied to the mission of stray animal rescue.  
-In full-stack development, flexibility across frontend, backend, and infrastructure can be a double-edged sword: without clear architecture and best practices, projects often become inconsistent, difficult to maintain, and hard to scale.  
-This project provides a structured, enterprise-ready full-stack architecture combining modern technologies (React + NestJS) with real-world operational and deployment requirements.
+A robust, maintainable, and scalable full-stack enterprise project built with React (frontend) and NestJS (backend).  
+It serves as an excellent real-world example for learning full-stack development, demonstrating a production-ready lifecycle including modular architecture, clean code, CI/CD, testing, deployment, and monitoring—applied to the mission of stray animal rescue.  
+This project provides a structured, enterprise-ready architecture for developers to understand professional full-stack application practices.
 
 ---
 
