@@ -31,16 +31,19 @@ This project aims to provide that architecture by combining modern technology (R
 
 ---
 
-## 🧩 Tech Highlights & Documentation
-
-| Area                | Description                                      | Docs Link                                      |
-|---------------------|--------------------------------------------------|------------------------------------------------|
-| **Frontend Architecture** | Modular React app, feature‑based slices        | [docs/frontend‑architecture.md](./docs/frontend‑architecture.md) |
-| **Backend Architecture**  | NestJS services with clean layering and RPC    | [docs/backend‑architecture.md](./docs/backend‑architecture.md) |
-| **HTTP & Error Handling** | Unified request layer, error classification    | [docs/http‑error‑handling.md](./docs/http‑error‑handling.md) |
-| **State Management**      | Powerful caching with React Query + Redux       | [docs/state‑management.md](./docs/state‑management.md) |
-| **DevOps & Deployment**   | CI/CD, Docker, Kubernetes setup                  | [docs/devops.md](./docs/devops.md)            |
-| **Code Quality & Testing**| ESLint, Prettier, Husky, Commitlint, Testing    | [docs/code‑quality.md](./docs/code‑quality.md) |
+## 📚 Table of Contents
+	•	💻 Application Overview
+	•	⚙️ Project Standards
+	•	🗄️ Project Structure
+	•	🧱 Components & Styling
+	•	📡 API Layer
+	•	🗃️ State Management
+	•	🧪 Testing
+	•	⚠️ Error Handling
+	•	🔐 Security
+	•	🚄 Performance
+	•	🌐 Deployment
+	•	📚 Additional Resources
 
 ---
 
