@@ -34,18 +34,16 @@ This project provides a structured, enterprise-ready full-stack architecture com
 
 ## 📚 Table of Contents
 
-    •	[💻 Application Overview](./docs/applicationAbout.md)
-    •	⚙️ Monorepo & Project Standards
-    •	🗄️ Repository Structure
-    •	🧱 Shared Packages & UI Library
-    •	📡 API & Backend Architecture
-    •	🗃️ Frontend Architecture & State Management
-    •	🧪 Testing Strategy
-    •	⚠️ Error Handling & Monitoring
-    •	🔐 Security & Access Control
-    •	🚄 Performance & Scalability
-    •	🌐 Deployment & DevOps
-    •	📚 Additional Resources
+- [💻 Application Overview](./docs/applicationAbout.md)
+- ⚙️ Monorepo & Project Standards
+- 🗄️ Repository Structure
+- 🧱 Shared Packages & UI Library
+- 📡 API & Backend Architecture
+- 🗃️ Frontend Architecture & State Management
+- 🧪 Testing Strategy
+- ⚠️ Error Handling & Monitoring
+- 🔐 Security & Access Control
+- 🌐 Deployment & DevOps
 
 ---
 
