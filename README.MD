@@ -12,6 +12,10 @@
 
 ---
 
+🌍 **Live:** [PawHaven](https://pawhaven.vercel.app)
+
+---
+
 A robust, maintainable, and scalable full-stack enterprise project built with React (frontend) and NestJS (backend).  
 It serves as an excellent real-world example for learning full-stack development, demonstrating a production-ready lifecycle including modular architecture, clean code, CI/CD, testing, deployment, and monitoring—applied to the mission of stray animal rescue.  
 This project provides a structured, enterprise-ready architecture for developers to understand professional full-stack application practices.
@@ -24,10 +28,6 @@ This project provides a structured, enterprise-ready architecture for developers
 - **Enterprise‑Ready Stack**: Comes with clear structure, best practices, and end‑to‑end full stack using React & NestJS.
 - **Real‑world Challenges**: Tackles issues like team collaboration, modular codebase, CI/CD pipelines, monitoring, scalability.
 - **Educational Resource**: Designed for developers who want to level up to large‑scale TypeScript applications.
-
----
-
-🌍 **Live:** [PawHaven](https://pawhaven.vercel.app)
 
 ---
 
