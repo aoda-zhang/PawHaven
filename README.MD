@@ -12,17 +12,18 @@
 
 ---
 
-A simple, scalable, and powerful full‑stack architecture designed for production‑ready web applications – now applied to the mission of stray animal rescue.  
-In the React ecosystem, flexibility is a double‑edged sword: while it allows endless possibilities, without a clear architecture it can lead to messy, inconsistent, and hard‑to‑maintain code bases.  
-This project aims to provide that architecture by combining modern technology (React + NestJS) with real‑world requirements (scaled teams, deployable infrastructure, and meaningful impact).
+A robust, maintainable, and scalable full‑stack enterprise project built from scratch following best practices for both React (frontend) and NestJS (backend).  
+It showcases the complete lifecycle of a production-ready application—from designing modular architecture, writing clean and scalable code, to implementing CI/CD pipelines, testing, deployment, and monitoring—applied to the mission of stray animal rescue.  
+In full-stack development, flexibility across frontend, backend, and infrastructure can be a double-edged sword: without clear architecture and best practices, projects often become inconsistent, difficult to maintain, and hard to scale.  
+This project provides a structured, enterprise-ready full-stack architecture combining modern technologies (React + NestJS) with real-world operational and deployment requirements.
 
 ---
 
 ## 🎯 Why this project?
 
-- **Purpose‑Driven**: PawHaven is not just a sample project—it’s a nonprofit initiative committed to rescuing stray animals.  
-- **Enterprise‑Ready Stack**: Comes with clear structure, best practices, and end‑to‑end full stack using React & NestJS.  
-- **Real‑world Challenges**: Tackles issues like team collaboration, modular codebase, CI/CD pipelines, monitoring, scalability.  
+- **Purpose‑Driven**: PawHaven is not just a sample project—it’s a nonprofit initiative committed to rescuing stray animals.
+- **Enterprise‑Ready Stack**: Comes with clear structure, best practices, and end‑to‑end full stack using React & NestJS.
+- **Real‑world Challenges**: Tackles issues like team collaboration, modular codebase, CI/CD pipelines, monitoring, scalability.
 - **Educational Resource**: Designed for developers who want to level up to large‑scale TypeScript applications.
 
 ---
@@ -32,18 +33,19 @@ This project aims to provide that architecture by combining modern technology (R
 ---
 
 ## 📚 Table of Contents
-	•	💻 Application Overview
-	•	⚙️ Project Standards
-	•	🗄️ Project Structure
-	•	🧱 Components & Styling
-	•	📡 API Layer
-	•	🗃️ State Management
-	•	🧪 Testing
-	•	⚠️ Error Handling
-	•	🔐 Security
-	•	🚄 Performance
-	•	🌐 Deployment
-	•	📚 Additional Resources
+
+    •	[💻 Application Overview](./docs/applicationAbout.md)
+    •	⚙️ Monorepo & Project Standards
+    •	🗄️ Repository Structure
+    •	🧱 Shared Packages & UI Library
+    •	📡 API & Backend Architecture
+    •	🗃️ Frontend Architecture & State Management
+    •	🧪 Testing Strategy
+    •	⚠️ Error Handling & Monitoring
+    •	🔐 Security & Access Control
+    •	🚄 Performance & Scalability
+    •	🌐 Deployment & DevOps
+    •	📚 Additional Resources
 
 ---
 
