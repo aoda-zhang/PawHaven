@@ -25,6 +25,8 @@ This project aims to provide that architecture by combining modern technology (R
 - **Real‑world Challenges**: Tackles issues like team collaboration, modular codebase, CI/CD pipelines, monitoring, scalability.  
 - **Educational Resource**: Designed for developers who want to level up to large‑scale TypeScript applications.
 
+---
+
 🌍 **Live:** [PawHaven](https://pawhaven.vercel.app)
 
 ---
