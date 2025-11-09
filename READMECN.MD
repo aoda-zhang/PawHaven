@@ -3,7 +3,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?logo=node.js&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white)
 ![pnpm](https://img.shields.io/badge/Package-pnpm-F69220?logo=pnpm&logoColor=white)
-![License](https://img.shields.io/github/license/aoda-zhang/fullStack-frontEnd)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 [![logo.png](https://i.postimg.cc/XvtGZv64/logo.png)](https://postimg.cc/f3jTpDbr)
 
