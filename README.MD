@@ -12,8 +12,6 @@
 
 ---
 
-# PawHaven Enterprise Stack – React + NestJS
-
 A simple, scalable, and powerful full‑stack architecture designed for production‑ready web applications – now applied to the mission of stray animal rescue.  
 In the React ecosystem, flexibility is a double‑edged sword: while it allows endless possibilities, without a clear architecture it can lead to messy, inconsistent, and hard‑to‑maintain code bases.  
 This project aims to provide that architecture by combining modern technology (React + NestJS) with real‑world requirements (scaled teams, deployable infrastructure, and meaningful impact).
@@ -27,7 +25,7 @@ This project aims to provide that architecture by combining modern technology (R
 - **Real‑world Challenges**: Tackles issues like team collaboration, modular codebase, CI/CD pipelines, monitoring, scalability.  
 - **Educational Resource**: Designed for developers who want to level up to large‑scale TypeScript applications.
 
-🌍 **Live Demo:** [https://pawhaven.vercel.app](https://pawhaven.vercel.app)
+🌍 **Live:** [PawHaven](https://pawhaven.vercel.app)
 
 ---
 
@@ -42,25 +40,6 @@ This project aims to provide that architecture by combining modern technology (R
 | **DevOps & Deployment**   | CI/CD, Docker, Kubernetes setup                  | [docs/devops.md](./docs/devops.md)            |
 | **Code Quality & Testing**| ESLint, Prettier, Husky, Commitlint, Testing    | [docs/code‑quality.md](./docs/code‑quality.md) |
 
----
-
-## 🛠️ Technology Stack
-
-- **Frontend:** React, TypeScript, Tailwind CSS, React Hook Form, Zustand / React Query  
-- **Backend:** NestJS, Node.js, RPC & REST APIs  
-- **Database:** MongoDB  
-- **CI/CD & Deployment:** GitHub Actions, Docker, Kubernetes (AKS)  
-- **Package Manager:** pnpm (Monorepo support)  
-
----
-
-## 🔗 Links
-
-- GitHub Repository: [https://github.com/aoda-zhang/PawHaven‑Enterprise‑Stack‑React‑NestJS](https://github.com/aoda-zhang/PawHaven-Enterprise-Stack-React-NestJS)  
-- Live Site: [https://pawhaven.vercel.app](https://pawhaven.vercel.app)  
-- Contact:  
-  - 📧 Email: [aodazhang666@gmail.com](mailto:aodazhang666@gmail.com)  
-  - 💼 LinkedIn: [https://www.linkedin.com/in/aodazhang](https://www.linkedin.com/in/aodazhang)  
 
 ---
 
