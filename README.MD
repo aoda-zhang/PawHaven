@@ -12,7 +12,7 @@
 
 ---
 
-🌍 **Live:** [PawHaven](https://pawhaven.vercel.app)
+🌍 **Live:** [PawHaven](https://pawhaven-love.vercel.app/)
 
 ---
 
