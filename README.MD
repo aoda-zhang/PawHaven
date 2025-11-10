@@ -12,13 +12,13 @@
 
 ---
 
-🌍 **Live:** [PawHaven](https://pawhaven-love.vercel.app/)
-
----
-
 A robust, maintainable, and scalable full-stack enterprise project built with React (frontend) and NestJS (backend).  
 It serves as an excellent real-world example for learning full-stack development, demonstrating a production-ready lifecycle including modular architecture, clean code, CI/CD, testing, deployment, and monitoring—applied to the mission of stray animal rescue.  
 This project provides a structured, enterprise-ready architecture for developers to understand professional full-stack application practices.
+
+---
+
+🌍 **Live:** [PawHaven](https://pawhaven-love.vercel.app/)
 
 ---
 
