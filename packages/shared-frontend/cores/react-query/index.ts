@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ToasterProps } from '@pawhaven/ui';
-import { showNotification } from '@pawhaven/ui';
+import { notificationType, showNotification } from '@pawhaven/ui';
 import { QueryCache, MutationCache } from '@tanstack/react-query';
 import i18n, { t } from 'i18next';
 import '@pawhaven/i18n';
@@ -18,7 +19,7 @@ const showErrorToast = (
 ) => {
   showNotification({
     message: errorMessage,
-    type: 'error',
+    type: notificationType.error,
     ...(errorNotificationOptions ?? {}),
   });
 };
@@ -34,21 +35,24 @@ const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
     ...meta,
   };
   switch (errorInfo.type) {
+    // Auth---------
     case httpRequestErrors.AUTH:
-      showErrorToast(errorMessage, {
-        duration: 2000,
-      });
+      // redirect to login page
       break;
-    case httpRequestErrors.FORBIDDEN:
-      showErrorToast(errorMessage, {
-        duration: Infinity,
-      });
+    case httpRequestErrors.PERMISSION:
+      // redirect to no permission page
       break;
-    case httpRequestErrors.CLIENT:
-      if (metaData?.isShowClientError) {
-        showErrorToast(errorMessage);
-      }
+
+    // client------------
+    case httpRequestErrors.BADREQUEST:
+      // params error
       break;
+    case httpRequestErrors.RATELIMIT:
+      // request limitation
+      break;
+
+    // Network ----------
+
     case httpRequestErrors.NETWORK:
       if (metaData?.isShowServerError) {
         showErrorToast(errorMessage);
@@ -60,7 +64,7 @@ const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
       break;
   }
 };
-const getRequestQueryOptions = (envConfig: Record<string, never>) => {
+const getRequestQueryOptions = (envConfig: Record<string, any>) => {
   const {
     refetchOnReconnect = true,
     refetchOnWindowFocus = false,
@@ -76,13 +80,11 @@ const getRequestQueryOptions = (envConfig: Record<string, never>) => {
         staleTime,
         cacheTime,
         retry: (failureCount: number, error: ApiErrorInfo) => {
+          // Default max retry 2 times
+          const maxRetry = envConfig?.queryOptions?.maxRetry ?? 2;
+          const retryAbleErrors = [httpRequestErrors.NETWORK];
           return (
-            failureCount < 2 &&
-            [
-              httpRequestErrors.NETWORK,
-              httpRequestErrors.SERVER,
-              httpRequestErrors.UNKNOWN,
-            ].includes(error.type)
+            failureCount < maxRetry && retryAbleErrors.includes(error?.type)
           );
         },
       },

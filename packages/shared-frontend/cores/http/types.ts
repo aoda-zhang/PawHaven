@@ -1,10 +1,16 @@
 export const httpRequestErrors = {
+  // Authentication
   AUTH: 'AUTH',
-  FORBIDDEN: 'FORBIDDEN',
-  NETWORK: 'NETWORK',
-  CLIENT: 'CLIENT',
+  PERMISSION: 'PERMISSION',
+  // Client
+  RATELIMIT: 'RATELIMIT',
+  BADREQUEST: 'BADREQUEST',
+  // Server
   SERVER: 'SERVER',
+  MAINTENANCE: 'MAINTENANCE',
   UNKNOWN: 'UNKNOWN',
+  // Network
+  NETWORK: 'NETWORK',
 } as const;
 
 export interface ApiClientOptions {

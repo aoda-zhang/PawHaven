@@ -4,23 +4,21 @@ import React from 'react';
 import type { ToastOptions } from 'react-hot-toast';
 import toast, { Toaster } from 'react-hot-toast';
 
-const notificationType = {
+export const notificationType = {
   success: 'success',
   error: 'error',
+  info: 'info',
 } as const;
-
-export type ToasterProps = Partial<
-  Pick<ToastOptions, 'position' | 'duration' | 'style' | 'iconTheme'>
->;
 export interface NotificationProps {
-  success?: ToasterProps;
-  error?: ToasterProps;
+  success?: ToastOptions;
+  error?: ToastOptions;
+  info?: ToastOptions;
 }
 
 interface ShowNotificationProps {
   type?: keyof typeof notificationType;
   message: string | ReactElement;
-  notificationOption?: ToasterProps;
+  notificationOption?: ToastOptions;
 }
 
 export const showNotification = ({
@@ -29,26 +27,23 @@ export const showNotification = ({
   notificationOption,
 }: ShowNotificationProps) => {
   const globalNotificationID = 'PAWHAVEN_NOTIFICATION';
-  toast.dismiss(globalNotificationID);
-  switch (type) {
-    case notificationType.success:
-      toast.success(message, {
-        id: globalNotificationID,
-        ...(notificationOption ?? {}),
-      });
-      break;
-    case notificationType.error:
-      toast.error(message, {
-        id: globalNotificationID,
-        ...(notificationOption ?? {}),
-      });
-      break;
-
-    default:
-      toast.error(message, {
-        id: globalNotificationID,
-        ...(notificationOption ?? {}),
-      });
+  if (type === notificationType.success || type === notificationType.error) {
+    toast.dismiss(globalNotificationID);
+    toast?.[type](message, {
+      id: globalNotificationID,
+      ...(notificationOption ?? {}),
+    });
+  }
+  if (type === notificationType.info) {
+    toast(message, {
+      id: globalNotificationID,
+      duration: notificationOption?.duration ?? 3000,
+      style: notificationOption?.style ?? {
+        backgroundColor: designTokens.colors.surface,
+        color: designTokens.colors.textPrimary,
+      },
+      ...(notificationOption ?? {}),
+    });
   }
 };
 
@@ -62,6 +57,7 @@ const Notification: React.FC<NotificationProps> = ({ success, error }) => {
         },
         success: {
           position: success?.position ?? 'top-center',
+          duration: success?.duration ?? 2500,
           style: success?.style ?? {
             backgroundColor: designTokens.colors.surface,
             color: designTokens.colors.success,
