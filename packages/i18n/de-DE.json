@@ -38,7 +38,11 @@
     "rescue_status_recovering": "Erholt sich",
     "rescue_status_awaitingAdoption": "Wartet auf Adoption",
     "rescue_status_adopted": "Adoptiert",
-    "rescue_status_failed": "Fehlgeschlagen"
+    "rescue_status_failed": "Fehlgeschlagen",
+    "systemNotice": "System Notice",
+    "globalMN": "Das System wird derzeit gewartet. Bitte versuchen Sie es später erneut.",
+    "scheduledMN": "Eine geplante Wartung findet am {{time}} statt. Einige Funktionen sind vorübergehend nicht verfügbar.",
+    "partialMN": "Einige Funktionen werden derzeit gewartet. Vielen Dank für Ihre Geduld."
   },
   "auth": {
     "login": "ANMELDEN",

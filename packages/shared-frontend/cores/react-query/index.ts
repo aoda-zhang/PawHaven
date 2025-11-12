@@ -1,30 +1,48 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ToasterProps } from '@pawhaven/ui';
-import { notificationType, showNotification } from '@pawhaven/ui';
+import {
+  type ToastType,
+  notificationType,
+  showNotification,
+} from '@pawhaven/ui';
 import { QueryCache, MutationCache } from '@tanstack/react-query';
 import i18n, { t } from 'i18next';
 import '@pawhaven/i18n';
+import type { ToastOptions } from 'react-hot-toast';
 
-import { httpRequestErrors, type ApiErrorInfo } from '../http/types';
+import { type ApiErrorInfo, httpRequestErrors } from '../http/types';
 
 interface RequestMeta {
   isShowServerError?: boolean;
   isShowClientError?: boolean;
-  [key: string]: unknown;
+  toastOptions?: { type: ToastType } & ToastOptions;
+}
+
+interface QueryOptionsType {
+  refetchOnReconnect?: boolean;
+  refetchOnWindowFocus?: boolean;
+  staleTime?: string;
+  cacheTime?: string;
+  maxRetry?: number;
+  onAuthError: () => void;
+  onPermissionError: () => void;
+}
+
+interface ErrorHandleType {
+  queryOptions: QueryOptionsType;
+  errorInfo: ApiErrorInfo;
+  meta: RequestMeta;
 }
 
 const showErrorToast = (
   errorMessage: string,
-  errorNotificationOptions?: ToasterProps,
+  errorNotificationOptions?: { type: ToastType } & ToastOptions,
 ) => {
   showNotification({
     message: errorMessage,
-    type: notificationType.error,
     ...(errorNotificationOptions ?? {}),
   });
 };
 
-const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
+const handleError = ({ queryOptions, errorInfo, meta }: ErrorHandleType) => {
   let errorMessage = t('errorMessage.UNKNOWN_ERROR');
   if (i18n.exists(`errorMessage.${errorInfo?.code}`)) {
     errorMessage = t(`errorMessage.${errorInfo?.code}`);
@@ -37,40 +55,40 @@ const handleError = (errorInfo: ApiErrorInfo, meta?: RequestMeta) => {
   switch (errorInfo.type) {
     // Auth---------
     case httpRequestErrors.AUTH:
-      // redirect to login page
+      queryOptions?.onAuthError();
       break;
     case httpRequestErrors.PERMISSION:
-      // redirect to no permission page
+      queryOptions?.onPermissionError();
       break;
 
     // client------------
     case httpRequestErrors.BADREQUEST:
-      // params error
-      break;
     case httpRequestErrors.RATELIMIT:
-      // request limitation
       break;
-
     // Network ----------
-
     case httpRequestErrors.NETWORK:
       if (metaData?.isShowServerError) {
-        showErrorToast(errorMessage);
+        showErrorToast(errorMessage, {
+          ...(metaData?.toastOptions ?? {}),
+          type: metaData?.toastOptions?.type ?? notificationType.info,
+          duration: metaData?.toastOptions?.duration ?? 1000,
+        });
       }
       break;
-
     default:
       showErrorToast(errorMessage);
       break;
   }
 };
-const getRequestQueryOptions = (envConfig: Record<string, any>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getRequestQueryOptions = (queryOptions: QueryOptionsType) => {
   const {
     refetchOnReconnect = true,
     refetchOnWindowFocus = false,
     staleTime = 5 * 60 * 1000, // Data is considered fresh within 5 minutes
     cacheTime = 30 * 60 * 1000, // Cache for 30 minutes
-  } = envConfig?.queryOptions ?? {};
+    maxRetry = 2, // Default max retry 2 times
+  } = queryOptions ?? {};
 
   return {
     defaultOptions: {
@@ -80,28 +98,33 @@ const getRequestQueryOptions = (envConfig: Record<string, any>) => {
         staleTime,
         cacheTime,
         retry: (failureCount: number, error: ApiErrorInfo) => {
-          // Default max retry 2 times
-          const maxRetry = envConfig?.queryOptions?.maxRetry ?? 2;
-          const retryAbleErrors = [httpRequestErrors.NETWORK];
+          const retryAbleErrors = [
+            httpRequestErrors.NETWORK,
+            httpRequestErrors.UNKNOWN,
+            httpRequestErrors.SERVER,
+          ] as const;
           return (
-            failureCount < maxRetry && retryAbleErrors.includes(error?.type)
+            failureCount < maxRetry &&
+            retryAbleErrors.includes(
+              error?.type as (typeof retryAbleErrors)[number],
+            )
           );
         },
       },
     },
 
     queryCache: new QueryCache({
-      onError: (error, query) => {
+      onError: (errorInfo, query) => {
         // Do not show errors for queries that already have data
         if (query.state.data !== undefined) return;
-        handleError(error as unknown as ApiErrorInfo, query?.meta ?? {});
+        handleError({ queryOptions, errorInfo, meta: query?.meta ?? {} });
       },
     }),
 
     mutationCache: new MutationCache({
-      onError: (error, _variables, _context, mutation) => {
-        const meta = mutation.meta as Record<string, unknown> | undefined;
-        handleError(error as unknown as ApiErrorInfo, meta ?? {});
+      onError: (errorInfo, _variables, _context, mutation) => {
+        const meta = mutation.meta as Record<string, unknown>;
+        handleError({ queryOptions, errorInfo, meta });
       },
     }),
   };

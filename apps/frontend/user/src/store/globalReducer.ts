@@ -13,6 +13,7 @@ import type { ProfileType } from '@/features/Auth/types';
 export interface GlobalStateType {
   profile: ProfileType;
   locale: string;
+  isSysMaintain: boolean;
 }
 const initialState: GlobalStateType = {
   profile: {
@@ -25,6 +26,7 @@ const initialState: GlobalStateType = {
     accessToken: '',
   },
   locale: storageTool.get(storageKeys.I18NKEY) || LocaleKeys['en-US'],
+  isSysMaintain: false,
 };
 
 const globalReducer = createSlice({

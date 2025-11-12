@@ -11,5 +11,5 @@ export {
   default as Notification,
   showNotification,
   notificationType,
+  type ToastType,
 } from './Notification';
-export type { ToasterProps } from './Notification';

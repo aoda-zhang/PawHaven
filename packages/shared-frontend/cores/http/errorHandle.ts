@@ -64,8 +64,11 @@ const isServerError = (errorRes) => {
  * Check if the server is temporarily unavailable (maintenance)
  */
 const isMaintenance = (errorRes) => {
-  const { status, code } = errorRes;
-  return status === 503 && [HttpBusinessMappingCode.maintenance].includes(code);
+  const { status, code, message } = errorRes;
+  return (
+    (status === 503 && [HttpBusinessMappingCode.maintenance].includes(code)) ||
+    message?.includes('maintenance')
+  );
 };
 
 /**

@@ -38,7 +38,11 @@
     "rescue_status_recovering": "康复中",
     "rescue_status_awaitingAdoption": "等待领养",
     "rescue_status_adopted": "已领养",
-    "rescue_status_failed": "救助失败"
+    "rescue_status_failed": "救助失败",
+    "systemNotice": "系统提示",
+    "globalMN": "系统正在维护中，请稍后再试。",
+    "scheduledMN": "我们将在 {{time}} 进行系统维护，期间部分功能可能不可用。",
+    "partialMN": "部分功能正在维护中，请耐心等待。"
   },
   "auth": {
     "login": "登录",

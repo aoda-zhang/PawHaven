@@ -47,4 +47,5 @@ export enum extraRequestHeader {
 export enum HttpBusinessMappingCode {
   jwtExpired = 'E401',
   unauthorized = 'Unauthorized',
+  maintenance = 'Maintenance',
 }

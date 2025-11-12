@@ -38,7 +38,11 @@
     "rescue_status_recovering": "Recovering",
     "rescue_status_awaitingAdoption": "Awaiting Adoption",
     "rescue_status_adopted": "Adopted",
-    "rescue_status_failed": "Failed"
+    "rescue_status_failed": "Failed",
+    "systemNotice": "System Notice",
+    "globalMN": "The system is currently under maintenance. Please try again later.",
+    "scheduledMN": "Scheduled maintenance will take place at {{time}}. Some features may be temporarily unavailable.",
+    "partialMN": "Some features are under maintenance. Thank you for your patience."
   },
   "auth": {
     "login": "LOG IN",

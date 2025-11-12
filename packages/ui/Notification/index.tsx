@@ -9,6 +9,8 @@ export const notificationType = {
   error: 'error',
   info: 'info',
 } as const;
+
+export type ToastType = keyof typeof notificationType;
 export interface NotificationProps {
   success?: ToastOptions;
   error?: ToastOptions;
@@ -16,7 +18,7 @@ export interface NotificationProps {
 }
 
 interface ShowNotificationProps {
-  type?: keyof typeof notificationType;
+  type?: ToastType;
   message: string | ReactElement;
   notificationOption?: ToastOptions;
 }

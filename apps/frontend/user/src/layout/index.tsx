@@ -6,6 +6,7 @@ import { useFetchGlobalMenu } from './RootLayoutAPI';
 import RootLayoutFooter from './RootLayoutFooter';
 import RootLayoutMenu from './RootLayoutMenu';
 
+import { NotificationBanner } from '@/components/NotificationBanner';
 import { useGlobalState } from '@/store/globalReducer';
 import type { MenuItemType, RouterInfoType } from '@/types/LayoutType';
 
@@ -18,6 +19,7 @@ export interface LayoutProps {
 const RootLayout = () => {
   const {
     profile: { baseUserInfo },
+    isSysMaintain,
   } = useGlobalState();
   const { data: globalMenuItems = [] } = useFetchGlobalMenu(
     baseUserInfo?.userID,
@@ -40,6 +42,17 @@ const RootLayout = () => {
 
       <div className="flex-1 flex flex-col">
         <div className="flex-1">
+          {isSysMaintain && (
+            <NotificationBanner
+              banner={{
+                id: 'system-maintenance',
+                type: 'info',
+                title: 'common.systemNotice',
+                message: 'common.globalMN',
+                dismissible: true,
+              }}
+            />
+          )}
           <Outlet />
         </div>
         {isFooterAvailable && <RootLayoutFooter />}
