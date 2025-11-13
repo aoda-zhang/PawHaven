@@ -4,6 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { useState, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import envConfig from '../config';
 
@@ -11,8 +12,24 @@ import useIsStableEnv from '@/hooks/useIsStableEnv';
 
 const QueryProvider = ({ children }: { children: ReactNode }) => {
   const IsStableEnv = useIsStableEnv();
+  const navigate = useNavigate();
   const [queryClient] = useState(
-    () => new QueryClient(getRequestQueryOptions(envConfig)),
+    () =>
+      new QueryClient(
+        getRequestQueryOptions({
+          refetchOnReconnect:
+            envConfig?.queryOption?.refetchOnReconnect ?? true,
+          refetchOnWindowFocus:
+            envConfig?.queryOption?.refetchOnWindowFocus ?? false,
+          staleTime: Number(envConfig?.queryOption?.staleTime) ?? 5 * 60 * 1000,
+          cacheTime:
+            Number(envConfig?.queryOption?.cacheTime) ?? 30 * 60 * 1000,
+          onAuthError: () => {
+            navigate('/auth/login');
+          },
+          onPermissionError: () => {},
+        }),
+      ),
   );
 
   const [asyncStoragePersister] = useState(() =>

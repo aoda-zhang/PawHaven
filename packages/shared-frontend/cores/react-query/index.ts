@@ -20,11 +20,11 @@ interface RequestMeta {
 interface QueryOptionsType {
   refetchOnReconnect?: boolean;
   refetchOnWindowFocus?: boolean;
-  staleTime?: string;
-  cacheTime?: string;
+  staleTime?: number;
+  cacheTime?: number;
   maxRetry?: number;
-  onAuthError: () => void;
-  onPermissionError: () => void;
+  onAuthError?: () => void;
+  onPermissionError?: () => void;
   onSysError?: () => void;
 }
 
@@ -57,17 +57,17 @@ const handleError = ({ queryOptions, errorInfo, meta }: ErrorHandleType) => {
   switch (errorInfo.type) {
     // Auth---------
     case httpRequestErrors.AUTH:
-      queryOptions?.onAuthError();
+      queryOptions?.onAuthError?.();
       break;
     case httpRequestErrors.PERMISSION:
-      queryOptions?.onPermissionError();
+      queryOptions?.onPermissionError?.();
       break;
 
     // Server
     case httpRequestErrors.SERVER:
     case httpRequestErrors.UNKNOWN:
       if (meta?.isCriticalRequest && queryOptions?.onSysError) {
-        queryOptions?.onSysError();
+        queryOptions?.onSysError?.();
         return;
       }
       showErrorToast(errorMessage, {
@@ -112,7 +112,9 @@ const getRequestQueryOptions = (queryOptions: QueryOptionsType) => {
         refetchOnWindowFocus,
         staleTime,
         cacheTime,
-        retry: (failureCount: number, error: ApiErrorInfo) => {
+        retry: (failureCount: number, error: unknown) => {
+          const apiError = error as ApiErrorInfo;
+          if (!apiError) return false;
           const retryAbleErrors = [
             httpRequestErrors.NETWORK,
             httpRequestErrors.UNKNOWN,
@@ -121,7 +123,7 @@ const getRequestQueryOptions = (queryOptions: QueryOptionsType) => {
           return (
             failureCount < maxRetry &&
             retryAbleErrors.includes(
-              error?.type as (typeof retryAbleErrors)[number],
+              apiError?.type as (typeof retryAbleErrors)[number],
             )
           );
         },
