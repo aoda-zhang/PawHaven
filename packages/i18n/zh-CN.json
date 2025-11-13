@@ -176,7 +176,7 @@
     "DUPLICATE_SUBMISSION": "重复提交，请勿重复操作。",
     "INVALID_VERIFICATION_CODE": "验证码错误或已过期，请重新获取。",
     "SESSION_EXPIRED": "会话已过期，请重新登录。",
-    "ERR_NETWORK": "网络异常，请检查您的网络连接。",
-    "UNKNOWN_ERROR": "发生未知错误，请稍后重试或联系支持。"
+    "ERR_NETWORK": "网络异常，请检查网络后重试",
+    "UNKNOWN_ERROR": "系统发生未知错误，请稍后重试或联系支持。"
   }
 }

@@ -11,8 +11,9 @@ import type { ToastOptions } from 'react-hot-toast';
 import { type ApiErrorInfo, httpRequestErrors } from '../http/types';
 
 interface RequestMeta {
-  isShowServerError?: boolean;
+  isNetworkError?: boolean;
   isShowClientError?: boolean;
+  isCriticalRequest?: boolean;
   toastOptions?: { type: ToastType } & ToastOptions;
 }
 
@@ -24,6 +25,7 @@ interface QueryOptionsType {
   maxRetry?: number;
   onAuthError: () => void;
   onPermissionError: () => void;
+  onSysError?: () => void;
 }
 
 interface ErrorHandleType {
@@ -49,7 +51,7 @@ const handleError = ({ queryOptions, errorInfo, meta }: ErrorHandleType) => {
   }
   const metaData: RequestMeta = {
     isShowClientError: false,
-    isShowServerError: true,
+    isNetworkError: true,
     ...meta,
   };
   switch (errorInfo.type) {
@@ -61,22 +63,35 @@ const handleError = ({ queryOptions, errorInfo, meta }: ErrorHandleType) => {
       queryOptions?.onPermissionError();
       break;
 
+    // Server
+    case httpRequestErrors.SERVER:
+    case httpRequestErrors.UNKNOWN:
+      if (meta?.isCriticalRequest && queryOptions?.onSysError) {
+        queryOptions?.onSysError();
+        return;
+      }
+      showErrorToast(errorMessage, {
+        ...(metaData?.toastOptions ?? {}),
+        type: metaData?.toastOptions?.type ?? notificationType.info,
+        duration: metaData?.toastOptions?.duration ?? 500,
+      });
+      break;
+
     // client------------
     case httpRequestErrors.BADREQUEST:
     case httpRequestErrors.RATELIMIT:
       break;
     // Network ----------
     case httpRequestErrors.NETWORK:
-      if (metaData?.isShowServerError) {
+      if (metaData?.isNetworkError) {
         showErrorToast(errorMessage, {
           ...(metaData?.toastOptions ?? {}),
           type: metaData?.toastOptions?.type ?? notificationType.info,
-          duration: metaData?.toastOptions?.duration ?? 1000,
+          duration: metaData?.toastOptions?.duration ?? 100,
         });
       }
       break;
     default:
-      showErrorToast(errorMessage);
       break;
   }
 };
@@ -117,14 +132,22 @@ const getRequestQueryOptions = (queryOptions: QueryOptionsType) => {
       onError: (errorInfo, query) => {
         // Do not show errors for queries that already have data
         if (query.state.data !== undefined) return;
-        handleError({ queryOptions, errorInfo, meta: query?.meta ?? {} });
+        handleError({
+          queryOptions,
+          errorInfo: errorInfo as unknown as ApiErrorInfo,
+          meta: query?.meta ?? {},
+        });
       },
     }),
 
     mutationCache: new MutationCache({
       onError: (errorInfo, _variables, _context, mutation) => {
-        const meta = mutation.meta as Record<string, unknown>;
-        handleError({ queryOptions, errorInfo, meta });
+        const meta = mutation.meta as RequestMeta;
+        handleError({
+          queryOptions,
+          errorInfo: errorInfo as unknown as ApiErrorInfo,
+          meta,
+        });
       },
     }),
   };

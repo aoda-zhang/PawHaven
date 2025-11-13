@@ -176,7 +176,7 @@
     "DUPLICATE_SUBMISSION": "Duplicate submission. Please do not repeat the operation.",
     "INVALID_VERIFICATION_CODE": "The verification code is incorrect or has expired. Please request a new one.",
     "SESSION_EXPIRED": "Your session has expired. Please log in again.",
-    "ERR_NETWORK": "Network error. Please check your internet connection.",
+    "ERR_NETWORK": "Network error, please check your connection and try again.",
     "UNKNOWN_ERROR": "An unknown error occurred. Please try again later or contact support."
   }
 }

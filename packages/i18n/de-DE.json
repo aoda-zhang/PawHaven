@@ -176,7 +176,7 @@
     "DUPLICATE_SUBMISSION": "Doppelte Übermittlung. Bitte führen Sie die Aktion nicht erneut aus.",
     "INVALID_VERIFICATION_CODE": "Der Bestätigungscode ist falsch oder abgelaufen. Bitte fordern Sie einen neuen Code an.",
     "SESSION_EXPIRED": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
-    "ERR_NETWORK": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
+    "ERR_NETWORK": "Netzwerkfehler, bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
     "UNKNOWN_ERROR": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Support."
   }
 }
