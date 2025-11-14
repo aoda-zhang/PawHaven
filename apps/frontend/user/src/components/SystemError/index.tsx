@@ -15,8 +15,8 @@ const SystemError: React.FC<SystemErrorProps> = ({ resetErrorBoundary }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center  p-10 min-w-full min-h-full">
-      <p className="text-error text-[14rem] ">
+    <div className="flex flex-col justify-center items-center  p-10 min-w-lvw min-h-lvh">
+      <p className="text-error text-9xl lg:text-[14rem] ">
         {t('common.system_error', { defaultValue: 'Something went wrong' })}
       </p>
 

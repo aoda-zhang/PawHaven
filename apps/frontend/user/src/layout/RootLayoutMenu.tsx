@@ -20,7 +20,7 @@ const RootLayoutMenu = ({
   const onCloseSidebar = () => setSidebarOpen(false);
 
   return (
-    <header className="flex items-center gap-4 box-border sticky top-0 p-[.625rem] z-50 border-border border-b-1 px-6 py-4 bg-white">
+    <header className="flex items-center gap-4 box-border p-[.625rem] z-header border-border border-b-1 px-6 py-4 bg-white">
       <Brand navigate={navigate} />
       {!isMobile && (
         <RootLayoutMenuRender

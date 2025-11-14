@@ -3,7 +3,7 @@ import { Clock, CheckCircle, User } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { RescueStatusType } from '@/features/Home/types';
+import type { RescueStatusType } from '@/features/Home/types';
 import getStatusColorByPrefix from '@/utils/getStatusColorByPrefix';
 
 export interface RescueUpdate {
@@ -45,7 +45,7 @@ const RescueTimeline: React.FC<RescueTimelineProps> = ({ updates }) => {
               <div className="absolute left-[-1.5rem] top-3.5 flex flex-col items-center">
                 <div
                   className={clsx(
-                    'w-7 h-7 rounded-full flex items-center justify-center z-10',
+                    'w-7 h-7 rounded-full flex items-center justify-center z-base',
                     getStatusColorByPrefix({
                       status: update?.status,
                       prefix: 'text',

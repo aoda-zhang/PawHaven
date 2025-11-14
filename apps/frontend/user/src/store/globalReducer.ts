@@ -26,7 +26,7 @@ const initialState: GlobalStateType = {
     accessToken: '',
   },
   locale: storageTool.get(storageKeys.I18NKEY) || LocaleKeys['en-US'],
-  isSysMaintain: false,
+  isSysMaintain: true,
 };
 
 const globalReducer = createSlice({

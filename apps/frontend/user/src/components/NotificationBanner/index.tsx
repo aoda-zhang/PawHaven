@@ -11,6 +11,7 @@ export interface BannerMessage {
   linkText?: string;
   linkUrl?: string;
   dismissible?: boolean;
+  variant?: 'standard' | 'filled' | 'outlined';
 }
 
 export const NotificationBanner: React.FC<{ banner: BannerMessage }> = ({
@@ -24,10 +25,12 @@ export const NotificationBanner: React.FC<{ banner: BannerMessage }> = ({
     <Collapse in={open}>
       <Alert
         severity={banner.type ?? 'info'}
+        variant={banner?.variant ?? 'standard'}
         sx={{
           borderRadius: 0,
-          justifyContent: 'center',
-          textAlign: 'center',
+          justifyContent: 'left',
+          padding: '6.25rem',
+          textAlign: 'left',
           fontSize: '0.95rem',
           py: 1.2,
         }}

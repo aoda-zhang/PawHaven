@@ -1,5 +1,5 @@
 #!/bin/sh
 
 # Run ESLint + Prettier via lint-staged
-echo "🧹 Checking code lints...."
+echo 	“🔍 Checking code syntax and formatting…”
 pnpm exec lint-staged

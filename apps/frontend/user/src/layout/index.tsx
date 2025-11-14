@@ -31,32 +31,34 @@ const RootLayout = () => {
     currentRouterInfo?.handle ?? {};
 
   return (
-    <div className="flex flex-col box-border h-full min-h-dvh">
-      {isMenuAvailable && globalMenuItems?.length > 0 && (
-        <RootLayoutMenu
-          menuItems={globalMenuItems}
-          navigate={navigate}
-          currentRouterInfo={currentRouterInfo}
-        />
-      )}
+    <div className="flex flex-col box-border min-h-dvh">
+      <header className="sticky top-0 bg-background z-notification">
+        {isSysMaintain && (
+          <NotificationBanner
+            banner={{
+              id: 'system-maintenance',
+              type: 'info',
+              variant: 'filled',
+              message: 'common.mockDataWarning',
+              dismissible: false,
+            }}
+          />
+        )}
+        {isMenuAvailable && globalMenuItems?.length > 0 && (
+          <RootLayoutMenu
+            menuItems={globalMenuItems}
+            navigate={navigate}
+            currentRouterInfo={currentRouterInfo}
+          />
+        )}
+      </header>
 
-      <div className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col">
         <div className="flex-1">
-          {isSysMaintain && (
-            <NotificationBanner
-              banner={{
-                id: 'system-maintenance',
-                type: 'info',
-                title: 'common.systemNotice',
-                message: 'common.globalMN',
-                dismissible: true,
-              }}
-            />
-          )}
           <Outlet />
         </div>
-        {isFooterAvailable && <RootLayoutFooter />}
-      </div>
+        <footer>{isFooterAvailable && <RootLayoutFooter />}</footer>
+      </main>
     </div>
   );
 };

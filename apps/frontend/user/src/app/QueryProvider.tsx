@@ -12,7 +12,7 @@ import useIsStableEnv from '@/hooks/useIsStableEnv';
 
 const QueryProvider = ({ children }: { children: ReactNode }) => {
   const IsStableEnv = useIsStableEnv();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [queryClient] = useState(
     () =>
       new QueryClient(
@@ -25,7 +25,7 @@ const QueryProvider = ({ children }: { children: ReactNode }) => {
           cacheTime:
             Number(envConfig?.queryOption?.cacheTime) ?? 30 * 60 * 1000,
           onAuthError: () => {
-            navigate('/auth/login');
+            // navigate('/auth/login');
           },
           onPermissionError: () => {},
         }),

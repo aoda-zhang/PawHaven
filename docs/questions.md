@@ -5,3 +5,5 @@
 ## How to show maintenance page
 
 ## Create Banner provider
+
+## Different system error page
