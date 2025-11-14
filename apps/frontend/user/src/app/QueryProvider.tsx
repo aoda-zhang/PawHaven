@@ -4,7 +4,6 @@ import { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { useState, type ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import envConfig from '../config';
 
